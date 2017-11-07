@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "${api.url.rootPath}")
 public class BaseApi {
+
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<?> badRequestExceptionHandler(Exception ex) {
+  public ResponseEntity<?> internalServerErrorExceptionHandler(Exception ex) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex);
   }
 }
-
