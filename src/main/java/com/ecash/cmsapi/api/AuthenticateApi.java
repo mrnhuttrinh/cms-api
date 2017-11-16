@@ -25,7 +25,7 @@ import com.ecash.cmsapi.security.JwtTokenUtil;
 import com.ecash.ecashcore.model.User;
 
 @RestController
-public class AuthenticateApi {
+public class AuthenticateApi extends BaseApi {
 
   @Value("${jwt.header}")
   private String tokenHeader;
