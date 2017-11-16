@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity.csrf().disable().authorizeRequests().antMatchers("/").permitAll()
-        .antMatchers(HttpMethod.POST, "/authenticate").permitAll().anyRequest().authenticated().and()
+        .antMatchers(HttpMethod.POST, "/api/authenticate").permitAll().anyRequest().authenticated().and()
         .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
   }
 
