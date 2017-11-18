@@ -1,13 +1,17 @@
 box: maven:3.5.2-jdk-8
 build:
-  box: maven:3.5.2-jdk-8
   steps:
-      - java/maven:
-        goals: clean compile
-        cache_repo: true
-        pom: pom.xml
-      - java/maven:
-        goals: install
-        cache_repo: true
-        pom: pom.xml
+    - xenoterracide/maven:
+        goals: clean install test
+#build:
+#  box: maven:3.5.2-jdk-8
+#  steps:
+#      - java/maven:
+#        goals: clean compile
+#        cache_repo: true
+#        pom: pom.xml
+#      - java/maven:
+#        goals: install
+#        cache_repo: true
+#        pom: pom.xml
         
