@@ -1,20 +1,23 @@
-box: maven:3.5.2-jdk-8
+box: maven:3.5.2-jdk-8-alpine
 build:
-  box: maven:3.5.2-jdk-8
   steps:
+    - script:
+      name: Build
+      code: |
+        echo "Hello Java Flight Recorder!"
+        echo "Choose the pipeline you want to run, e.g. 'test-timeout' and run it like this:"
+        echo "wercker build --pipeline=test-timeout"
+regular-test:
+  steps:
+    - script:
+      name: Install pre-reqs
+      code: |
+        apt-get -y install tar gzip
     - java/maven:
       settings: settings.xml
       security_settings: settings-security.xml
-      goals: clean install test
-#build:
-#  box: maven:3.5.2-jdk-8
-#  steps:
-#      - java/maven:
-#        goals: clean compile
-#        cache_repo: true
-#        pom: pom.xml
-#      - java/maven:
-#        goals: install
-#        cache_repo: true
-#        pom: pom.xml
-        
+      goals: clean compile
+    - java/maven:
+      settings: settings.xml
+      security_settings: settings-security.xml
+      goals: install
