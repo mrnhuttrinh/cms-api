@@ -2,6 +2,8 @@ box: maven:3.5.2-jdk-8
 build:
   steps:
     - xenoterracide/maven:
+        settings: settings.xml
+        security_settings: settings-security.xml
         goals: clean install test
 #build:
 #  box: maven:3.5.2-jdk-8
