@@ -1,5 +1,6 @@
 box: maven:3.5.2-jdk-8
 build:
+  box: maven:3.5.2-jdk-8
   steps:
       - java/maven:
         goals: clean install
