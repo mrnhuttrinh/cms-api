@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecash.cmsapi.security.JwtAuthenticationResponse;
 import com.ecash.cmsapi.security.JwtTokenUtil;
-import com.ecash.ecashcore.model.User;
 
 @RestController
 public class AuthenticateApi extends BaseApi {
@@ -42,12 +41,15 @@ public class AuthenticateApi extends BaseApi {
   @Autowired
   private UserDetailsService userDetailsService;
 
+  @Autowired
+  public HttpSession httpSession;
+
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> authenticateUser(@RequestBody Map<String, Object> body, HttpServletResponse response) {
+  public ResponseEntity<?> authenticateUser(@RequestBody Map<String, Object> body,HttpServletRequest request, HttpServletResponse response) {
 
     String username = body.get("username").toString();
     String password = body.get("password").toString();
-    // String password = passwordEncoder.encode(body.get("password").toString());
+
     // Perform the security
     UsernamePasswordAuthenticationToken newUserPassword = new UsernamePasswordAuthenticationToken(username, password);
     final Authentication authentication = authenticationManager.authenticate(newUserPassword);
@@ -57,22 +59,31 @@ public class AuthenticateApi extends BaseApi {
     final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
     final String token = jwtTokenUtil.generateToken(userDetails);
 
-    // Return the token
-    response.addHeader(tokenHeader, tokenPrefix + " " + token);
+    httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
   @RequestMapping(value = "/refresh-token", method = RequestMethod.GET)
   public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {
-    String requestHeader = request.getHeader(tokenHeader);
+    String requestHeader = (String) httpSession.getAttribute(this.tokenHeader);
     String authToken = requestHeader.substring(7);
-    String username = jwtTokenUtil.getUsernameFromToken(authToken);
-    UserDetails user = (UserDetails) userDetailsService.loadUserByUsername(username);
 
     if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
       String refreshedToken = jwtTokenUtil.refreshToken(authToken);
-      // Return the token
-      response.addHeader(tokenHeader, tokenPrefix + " " + refreshedToken);
+      httpSession.setAttribute(tokenHeader, tokenPrefix + " " + refreshedToken);
+      return ResponseEntity.ok(HttpStatus.OK);
+    } else {
+      return ResponseEntity.badRequest().body(null);
+    }
+  }
+  
+  @RequestMapping(value = "/sign-out", method = RequestMethod.POST)
+  public ResponseEntity<?> signOut(HttpServletRequest request, HttpServletResponse response) {
+    String requestHeader = (String) httpSession.getAttribute(this.tokenHeader);
+    String authToken = requestHeader.substring(7);
+
+    if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
+      httpSession.removeAttribute(tokenHeader);
       return ResponseEntity.ok(HttpStatus.OK);
     } else {
       return ResponseEntity.badRequest().body(null);
