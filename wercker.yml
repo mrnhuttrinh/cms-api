@@ -12,7 +12,7 @@ build:
     - script:
       name: Install pre-reqs
       code: |
-        apt-get -y install tar gzip
+        yum -y install tar gzip
     - java/maven:
       settings: settings.xml
       security_settings: settings-security.xml
