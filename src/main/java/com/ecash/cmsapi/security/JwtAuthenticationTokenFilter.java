@@ -6,12 +6,14 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,7 +41,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
-    final String requestHeader = request.getHeader(this.tokenHeader);
+
+    HttpSession session = request.getSession(false);
+    if (session != null) {
+      logger.debug("Session id: " + session.getId());
+    }
+
+    String requestHeader = null;
+
+    if (session != null) {
+      logger.debug("Getting auth from session");
+      requestHeader = (String) session.getAttribute(this.tokenHeader);
+    }
 
     String username = null;
     String authToken = null;
@@ -62,7 +75,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
       // It is not compelling necessary to load the use details from the database. You
       // could also store the information
       // in the token and read it from it. It's up to you ;)
-      UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+      UserDetails userDetails = (UserDetails) userDetailsService.loadUserByUsername(username);
 
       // For simple validation it is completely sufficient to just check the token
       // integrity. You don't have to call
@@ -73,6 +86,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         logger.info("authenticated user " + username + ", setting security context");
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        session.setAttribute(tokenHeader, tokenPrefix + " " + authToken);
       }
     }
 
