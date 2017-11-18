@@ -9,10 +9,10 @@ box: maven:3.5.2-jdk-8-alpine
 #        echo "wercker build --pipeline=test-timeout"
 build:
   steps:
-    - script:
-      name: Install pre-reqs
-      code: |
-        yum -y install tar gzip
+#    - script:
+#      name: Install pre-reqs
+#      code: |
+#        yum -y install tar gzip
     - java/maven:
       settings: settings.xml
       security_settings: settings-security.xml
