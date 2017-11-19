@@ -1,11 +1,6 @@
-box: maven:latest
+box: maven:3-jdk-8-alpine
 build:
   steps:
-    - java/maven:
-      settings: settings.xml
-      security_settings: settings-security.xml
-      goals: clean compile
-    - java/maven:
-      settings: settings.xml
-      security_settings: settings-security.xml
-      goals: install
+   - script:
+      name: CMS API Maven Build
+      code: mvn clean install --settings auth_settings.xml -Dsettings.security=auth_settings-security.xml
