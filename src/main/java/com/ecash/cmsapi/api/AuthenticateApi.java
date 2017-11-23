@@ -46,21 +46,24 @@ public class AuthenticateApi extends BaseApi {
 
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> authenticateUser(@RequestBody Map<String, Object> body,HttpServletRequest request, HttpServletResponse response) {
-
-    String username = body.get("username").toString();
-    String password = body.get("password").toString();
-
-    // Perform the security
-    UsernamePasswordAuthenticationToken newUserPassword = new UsernamePasswordAuthenticationToken(username, password);
-    final Authentication authentication = authenticationManager.authenticate(newUserPassword);
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    // Reload password post-security so we can generate token
-    final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-    final String token = jwtTokenUtil.generateToken(userDetails);
-
-    httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
-    return ResponseEntity.ok(HttpStatus.OK);
+    try {
+      String username = body.get("username").toString();
+      String password = body.get("password").toString();
+  
+      // Perform the security
+      UsernamePasswordAuthenticationToken newUserPassword = new UsernamePasswordAuthenticationToken(username, password);
+      final Authentication authentication = authenticationManager.authenticate(newUserPassword);
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+  
+      // Reload password post-security so we can generate token
+      final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+      final String token = jwtTokenUtil.generateToken(userDetails);
+  
+      httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
+      return ResponseEntity.ok(HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
   }
 
   @RequestMapping(value = "/refresh-token", method = RequestMethod.GET)

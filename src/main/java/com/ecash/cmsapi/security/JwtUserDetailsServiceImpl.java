@@ -30,6 +30,10 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     com.ecash.ecashcore.model.User user = userRepository.findByUsername(username);
+    if (user == null) {
+      // try find user by email
+      user = userRepository.findByEmail(username);
+    }
     List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
 
     return buildUserForAuthentication(user, authorities);
