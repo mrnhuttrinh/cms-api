@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,7 +18,6 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Value("${jwt.header}")
@@ -45,9 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.csrf().disable()
-        .authorizeRequests().antMatchers("/").permitAll().antMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
-        .anyRequest().authenticated().and()
+    httpSecurity.csrf().disable().authorizeRequests().antMatchers("/").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/authenticate").permitAll().anyRequest().authenticated().and()
         .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class).requestCache()
         .requestCache(getHttpSessionRequestCache());
   }
