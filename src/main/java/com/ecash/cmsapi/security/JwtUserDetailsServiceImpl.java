@@ -44,7 +44,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
     return newUser;
   }
 
-  private List<GrantedAuthority> buildUserAuthority(Collection<Role> userRoles) {
+  private List<GrantedAuthority> buildUserAuthority(List<Role> userRoles) {
     Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
     // Build user's authorities
     for (Role userRole : userRoles) {
