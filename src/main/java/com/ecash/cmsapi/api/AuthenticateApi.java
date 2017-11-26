@@ -1,7 +1,5 @@
 package com.ecash.cmsapi.api;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.cmsapi.security.JwtTokenUtil;
+import com.ecash.cmsapi.vo.LoginVO;
 
 @RestController
 public class AuthenticateApi extends BaseApi {
@@ -45,25 +44,22 @@ public class AuthenticateApi extends BaseApi {
   public HttpSession httpSession;
 
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> authenticateUser(@RequestBody Map<String, Object> body,HttpServletRequest request, HttpServletResponse response) {
-    try {
-      String username = body.get("username").toString();
-      String password = body.get("password").toString();
-  
-      // Perform the security
-      UsernamePasswordAuthenticationToken newUserPassword = new UsernamePasswordAuthenticationToken(username, password);
-      final Authentication authentication = authenticationManager.authenticate(newUserPassword);
-      SecurityContextHolder.getContext().setAuthentication(authentication);
-  
-      // Reload password post-security so we can generate token
-      final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-      final String token = jwtTokenUtil.generateToken(userDetails);
-  
-      httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
-      return ResponseEntity.ok(HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
+  public ResponseEntity<?> authenticateUser(@RequestBody LoginVO vo, HttpServletRequest request,
+      HttpServletResponse response) {
+    String username = vo.getUsername();
+    String password = vo.getPassword();
+
+    // Perform the security
+    final Authentication authentication = authenticationManager
+        .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    // Reload password post-security so we can generate token
+    final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    final String token = jwtTokenUtil.generateToken(userDetails);
+
+    httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
+    return ResponseEntity.ok("Login successfully.");
   }
 
   @RequestMapping(value = "/refresh-token", method = RequestMethod.GET)
@@ -74,12 +70,12 @@ public class AuthenticateApi extends BaseApi {
     if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
       String refreshedToken = jwtTokenUtil.refreshToken(authToken);
       httpSession.setAttribute(tokenHeader, tokenPrefix + " " + refreshedToken);
-      return ResponseEntity.ok(HttpStatus.OK);
+      return ResponseEntity.ok("Refresh token successfully.");
     } else {
-      return ResponseEntity.badRequest().body(null);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error on refesh token.");
     }
   }
-  
+
   @RequestMapping(value = "/sign-out", method = RequestMethod.POST)
   public ResponseEntity<?> signOut(HttpServletRequest request, HttpServletResponse response) {
     String requestHeader = (String) httpSession.getAttribute(this.tokenHeader);
@@ -87,9 +83,9 @@ public class AuthenticateApi extends BaseApi {
 
     if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
       httpSession.removeAttribute(tokenHeader);
-      return ResponseEntity.ok(HttpStatus.OK);
+      return ResponseEntity.ok("Sign out successfully.");
     } else {
-      return ResponseEntity.badRequest().body(null);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error on signout.");
     }
   }
 }

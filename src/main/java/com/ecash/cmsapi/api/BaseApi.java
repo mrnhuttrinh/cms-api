@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,5 +61,19 @@ public class BaseApi {
     LOGGER.error(ex.getMessage(), ex);
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
         new ResponseBodyVO(HttpStatus.FORBIDDEN.value(), ResponseConstant.AUTHENTICATION_ERROR, ex.getMessage(), null));
+  }
+
+  @ExceptionHandler(UsernameNotFoundException.class)
+  public ResponseEntity<?> usernameNotFoundExceptionExceptionHandler(Exception ex) {
+    LOGGER.error(ex.getMessage(), ex);
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), ResponseConstant.ERROR, ex.getMessage(), null));
+  }
+
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<?> authenticationExceptionHandler(Exception ex) {
+    LOGGER.error(ex.getMessage(), ex);
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        .body(new ResponseBodyVO(HttpStatus.UNAUTHORIZED.value(), ResponseConstant.ERROR, ex.getMessage(), null));
   }
 }
