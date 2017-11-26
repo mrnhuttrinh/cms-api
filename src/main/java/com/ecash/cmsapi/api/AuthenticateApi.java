@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.cmsapi.security.JwtTokenUtil;
 import com.ecash.cmsapi.vo.LoginVO;
+import com.ecash.cmsapi.vo.ResponseBodyVO;
 
 @RestController
 public class AuthenticateApi extends BaseApi {
@@ -59,7 +60,8 @@ public class AuthenticateApi extends BaseApi {
     final String token = jwtTokenUtil.generateToken(userDetails);
 
     httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
-    return ResponseEntity.ok("Login successfully.");
+    ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Login successfully.", null, null);
+    return ResponseEntity.ok(data);
   }
 
   @RequestMapping(value = "/refresh-token", method = RequestMethod.GET)
@@ -70,9 +72,11 @@ public class AuthenticateApi extends BaseApi {
     if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
       String refreshedToken = jwtTokenUtil.refreshToken(authToken);
       httpSession.setAttribute(tokenHeader, tokenPrefix + " " + refreshedToken);
-      return ResponseEntity.ok("Refresh token successfully.");
+      ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Refresh token successfully.", null, null);
+      return ResponseEntity.ok(data);
     } else {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error on refesh token.");
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error on refesh token.", null, null);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
   }
 
@@ -83,9 +87,11 @@ public class AuthenticateApi extends BaseApi {
 
     if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
       httpSession.removeAttribute(tokenHeader);
-      return ResponseEntity.ok("Sign out successfully.");
+      ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Sign out successfully.", null, null);
+      return ResponseEntity.ok(data);
     } else {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error on signout.");
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error on signout.", null, null);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
   }
 }
