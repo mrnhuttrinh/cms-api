@@ -12,7 +12,7 @@ import com.ecash.ecashcore.repository.CustomerRepository;
 import com.querydsl.core.types.Predicate;
 
 @RestController
-public class CustomerApi {
+public class CustomerApi extends BaseApi {
 
   @Autowired
   private CustomerRepository customerRepository;
