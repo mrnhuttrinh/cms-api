@@ -1,0 +1,304 @@
+{
+	"variables": [],
+	"info": {
+		"name": "EcashService",
+		"_postman_id": "205c37f2-bf54-93e6-bc7c-05d1bb9c2454",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/organizations - Create",
+			"request": {
+				"url": "http://localhost:8081/organizations",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : \"TestOrgCode\",\n\t\"shortName\" : \"TestOrg\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/customerTypes - Create",
+			"request": {
+				"url": "http://localhost:8081/customerTypes",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"typeCode\" : \"TestTypeCode\",\n\t\"description\" : \"Test type\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/customers - Create",
+			"request": {
+				"url": "http://localhost:8081/api/customers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"scmsMemberCode\": \"scmsMemberCode1\",\n  \"firstName\": \"Hung\",\n  \"lastName\": \"Nguyen\",\n  \"phone1\": \"0909 090 909\",\n  \"phone2\": \"0902 902 290\",\n  \"email\": \"test@ecash.com\",\n  \"dateOfBirth\": \"1988-10-30\",\n  \"gender\": \"1\",\n  \"dateBecameCustomer\": \"2017-10-30\",\n  \"status\": \"ACTIVE\",\n  \"countryCode\": \"TestCountryCode\",\n  \"occupation\": \"Test occupation\",\n  \"title\": \"Test title\",\n  \"position\": \"Test position\",\n  \"customerType\": \"/STUDENT\",\n  \"organization\": \"/scampus\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/customers - Update constraint /customerTypes",
+			"request": {
+				"url": "http://localhost:8081/customers/40288a945fa71291015fa72420330000/customerType",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/uri-list",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "http://localhost:8081/customerTypes/STUDENT"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/customers - Update constraint /organizations (NOT WORK)",
+			"request": {
+				"url": "http://localhost:8081/customers/40288a945fa71291015fa72420330000/customerType",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/uri-list",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "http://localhost:8081/organizations/TestOrgCode"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/charge",
+			"request": {
+				"url": "http://localhost:8081/api/charge",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"card\": {\n    \"number\": \"01020304050607\",\n    \"trackData\": \"track data\"\n  },\n  \"amount\": 100,\n  \"extendedInformation\": {\n    \"transactionDetails\": \"{'cocacola': 1,'aquafina': 2}\",\n    \"additionalTerminalInfo\": {\n      \"terminalId\": \"288816b1-369d-4d3f-8396-111111111111\",\n      \"terminalAddress\": {\n        \"addressType\": 1,\n        \"details\": {\n          \"city\": \"HCM\",\n          \"district\": \"Tan Binh\"\n        }\n      }\n    }\n  },\n  \"targetAccount\": {\n\t\"type\": \"DEFAULT\"\n  }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/deposit",
+			"request": {
+				"url": "http://localhost:8081/api/deposit",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"card\": {\n    \"number\": \"01020304050607\",\n    \"trackData\": \"track data\"\n  },\n  \"amount\": 100,\n  \"extendedInformation\": {\n    \"transactionDetails\": \"{'cocacola': 1,'aquafina': 2}\",\n    \"additionalTerminalInfo\": {\n      \"terminalId\": \"288816b1-369d-4d3f-8396-111111111111\",\n      \"terminalAddress\": {\n        \"addressType\": 1,\n        \"details\": {\n          \"city\": \"HCM\",\n          \"district\": \"Tan Binh\"\n        }\n      }\n    }\n  },\n  \"targetAccount\": {\n\t\"type\": \"DEFAULT\"\n  }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/refund",
+			"request": {
+				"url": "http://localhost:8081/api/refund",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"transactionId\": \"4028818a5ff45866015ff459215a0003\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/authenticate",
+			"request": {
+				"url": "http://localhost:8081/api/authenticate",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/cards - Create",
+			"request": {
+				"url": "http://localhost:8081/api/cards",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cardCode\": \"AAA\",\n  \"status\": \"ACTIVE\",\n  \"effectiveDate\": \"2017-11-25\",\n  \"cardType\": \"/DEFAULT\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/accounts - Create",
+			"request": {
+				"url": "http://localhost:8081/api/accounts",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"currentBalance\": \"5000\",\n  \"status\": \"ACTIVE\",\n  \"accountName\": \"ABC\",\n  \"accountType\": \"/DEBIT\",\n  \"customer\": \"/7717065d-0e16-471b-88b2-111111111111\",\n  \"currencyCode\": \"/vnd\",\n  \"dateOpened\": \"2017-11-25\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/accountCards - Create",
+			"request": {
+				"url": "http://localhost:8081/api/accountCards",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"card\": \"/4028818a5ff48114015ff482adf40002\",\n  \"account\": \"/4028818a5ff48114015ff4828edb0001\",\n  \"status\": \"ACTIVE\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/accounts - GET ?projection=excerpt",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8081/api/accounts/4028818a5ff4b57f015ff4b5e7f50000?projection=custom",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"accounts",
+						"4028818a5ff4b57f015ff4b5e7f50000"
+					],
+					"query": [
+						{
+							"key": "projection",
+							"value": "custom",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

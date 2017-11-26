@@ -10,6 +10,8 @@ import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
+import com.ecash.ecashcore.repository.projection.AccountExcerpt;
+
 @Configuration
 public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
 
@@ -19,6 +21,11 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
    */
   @Override
   public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+    idExposed(config);
+    addProjection(config);
+  }
+
+  private void idExposed(RepositoryRestConfiguration config) {
     final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
     provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
 
@@ -33,5 +40,9 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
         // Exception cause by some class in this model is not an entity (just ignore)
       }
     }
+  }
+
+  private void addProjection(RepositoryRestConfiguration config) {
+    config.getProjectionConfiguration().addProjection(AccountExcerpt.class);
   }
 }
