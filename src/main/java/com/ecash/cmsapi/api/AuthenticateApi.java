@@ -1,5 +1,7 @@
 package com.ecash.cmsapi.api;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecash.cmsapi.security.JwtTokenUtil;
 import com.ecash.cmsapi.vo.LoginVO;
 import com.ecash.cmsapi.vo.ResponseBodyVO;
+import com.ecash.ecashcore.model.User;
+import com.ecash.ecashcore.service.UserService;
 
 @RestController
 public class AuthenticateApi extends BaseApi {
@@ -43,6 +47,9 @@ public class AuthenticateApi extends BaseApi {
 
   @Autowired
   public HttpSession httpSession;
+  
+  @Autowired
+  public UserService userService;
 
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> authenticateUser(@RequestBody LoginVO vo, HttpServletRequest request,
@@ -58,6 +65,10 @@ public class AuthenticateApi extends BaseApi {
     // Reload password post-security so we can generate token
     final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
     final String token = jwtTokenUtil.generateToken(userDetails);
+    
+    User user = userService.getByUsername(userDetails.getUsername());
+    user.setLastLogin(new Date());
+    userService.save(user);
 
     httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
     ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Login successfully.", null, null);
@@ -68,8 +79,13 @@ public class AuthenticateApi extends BaseApi {
   public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {
     String requestHeader = (String) httpSession.getAttribute(this.tokenHeader);
     String authToken = requestHeader.substring(7);
+    
+    String username = jwtTokenUtil.getUsernameFromToken(authToken);
+    User user = userService.getByUsername(username);
 
-    if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
+    if (jwtTokenUtil.canTokenBeRefreshed(authToken) && user != null) {
+      user.setLastLogin(new Date());
+      userService.save(user);
       String refreshedToken = jwtTokenUtil.refreshToken(authToken);
       httpSession.setAttribute(tokenHeader, tokenPrefix + " " + refreshedToken);
       ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Refresh token successfully.", null, null);
