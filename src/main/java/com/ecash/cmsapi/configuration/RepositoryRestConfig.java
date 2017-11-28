@@ -11,6 +11,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
 import com.ecash.ecashcore.repository.projection.AccountExcerpt;
+import com.ecash.ecashcore.repository.projection.CardExcerpt;
 import com.ecash.ecashcore.repository.projection.CustomerExcerpt;
 import com.ecash.ecashcore.repository.projection.UserExcerpt;
 
@@ -46,6 +47,6 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
 
   private void addProjection(RepositoryRestConfiguration config) {
     config.getProjectionConfiguration().addProjection(AccountExcerpt.class).addProjection(CustomerExcerpt.class)
-        .addProjection(UserExcerpt.class);
+        .addProjection(UserExcerpt.class).addProjection(CardExcerpt.class);
   }
 }
