@@ -13,7 +13,9 @@ node {
     }
 
     stage("Maven: mvn clean install") {
-      sh "mvn clean package --settings auth_settings.xml -Dsettings.security=auth_settings-security.xml"
+      withEnv(["PATH+MAVEN=${tool "mvn-3.5.2"}/bin"]) {
+          sh "mvn clean package --settings auth_settings.xml -Dsettings.security=auth_settings-security.xml"
+      }
     }
 
     if (currentBuild.result == "UNSTABLE" || currentBuild.result == "FAILURE") {
