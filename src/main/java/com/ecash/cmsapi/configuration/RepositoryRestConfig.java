@@ -3,17 +3,15 @@ package com.ecash.cmsapi.configuration;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
+import org.springframework.data.rest.core.config.Projection;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
-
-import com.ecash.ecashcore.repository.projection.AccountExcerpt;
-import com.ecash.ecashcore.repository.projection.CustomerExcerpt;
-import com.ecash.ecashcore.repository.projection.UserExcerpt;
-import com.ecash.ecashcore.repository.projection.UserHistoryExcerpt;
 
 @Configuration
 public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
@@ -46,7 +44,30 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
   }
 
   private void addProjection(RepositoryRestConfiguration config) {
-    config.getProjectionConfiguration().addProjection(AccountExcerpt.class).addProjection(CustomerExcerpt.class)
-        .addProjection(UserExcerpt.class).addProjection(UserHistoryExcerpt.class);
+    final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(
+        false) {
+
+      @Override
+      protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
+        AnnotationMetadata metadata = beanDefinition.getMetadata();
+        return metadata.hasAnnotation(Projection.class.getName());
+      }
+    };
+    provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
+
+    final Set<BeanDefinition> beans = provider.findCandidateComponents("com.ecash.ecashcore.repository.projection");
+
+    for (BeanDefinition bean : beans) {
+      try {
+        Class<?> clazz = Class.forName(bean.getBeanClassName());
+        config.getProjectionConfiguration().addProjection(clazz);
+      } catch (ClassNotFoundException e) {
+     // Exception cause by some class in this model is not an entity (just ignore)
+      }
+    }
+
+    // config.getProjectionConfiguration().addProjection(AccountExcerpt.class).addProjection(CustomerExcerpt.class)
+    // .addProjection(UserExcerpt.class).addProjection(UserHistoryExcerpt.class)
+    // .addProjection(CustomerHistoryExcerpt.class);
   }
 }
