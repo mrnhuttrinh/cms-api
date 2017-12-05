@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.ecashcore.model.Account;
-import com.ecash.ecashcore.repository.AccountRepository;
+import com.ecash.ecashcore.service.AccountService;
 import com.querydsl.core.types.Predicate;
 
 @RestController
 public class AccountApi extends BaseApi {
 
   @Autowired
-  private AccountRepository accountRepository;
+  private AccountService accountService;
 
   @GetMapping(value = "/accounts/search")
   public Iterable<Account> searchAll(@QuerydslPredicate(root = Account.class) Predicate predicate,
       Pageable pageable) {
-    return accountRepository.findAll(predicate, pageable);
+    return accountService.findAll(predicate, pageable);
   }
 }
