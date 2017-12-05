@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.ecashcore.model.Merchant;
-import com.ecash.ecashcore.repository.MerchantRepository;
+import com.ecash.ecashcore.service.MerchantService;
 import com.querydsl.core.types.Predicate;
 
 @RestController
 public class MerchantApi extends BaseApi {
 
   @Autowired
-  private MerchantRepository merchantRepository;
+  MerchantService merchantService;
   
   @GetMapping(value = "/merchants/search")
   @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
   public Iterable<Merchant> searchAll(@QuerydslPredicate(root = Merchant.class) Predicate predicate,
       Pageable pageable) {
-    return merchantRepository.findAll(predicate, pageable);
+    return merchantService.findAll(predicate, pageable);
   }
 }
