@@ -7,20 +7,20 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecash.ecashcore.model.MerchantTerminal;
-import com.ecash.ecashcore.service.MerchantTerminalService;
+import com.ecash.ecashcore.model.Transaction;
+import com.ecash.ecashcore.service.TransactionService;
 import com.querydsl.core.types.Predicate;
 
 @RestController
-public class MerchantTerminalApi extends BaseApi {
-
-  @Autowired
-  private MerchantTerminalService merchantTerminalService;
+public class TransactionApi extends BaseApi {
   
-  @GetMapping(value = "/merchantTerminals/search")
+  @Autowired
+  TransactionService transactionService;
+  
+  @GetMapping(value = "/transactions/search")
   @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
-  public Iterable<MerchantTerminal> searchAll(@QuerydslPredicate(root = MerchantTerminal.class) Predicate predicate,
+  public Iterable<Transaction> searchAll(@QuerydslPredicate(root = Transaction.class) Predicate predicate,
       Pageable pageable) {
-    return merchantTerminalService.findAll(predicate, pageable);
+    return transactionService.findAll(predicate, pageable);
   }
 }

@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.ecashcore.model.Customer;
-import com.ecash.ecashcore.repository.CustomerRepository;
+import com.ecash.ecashcore.service.CustomerService;
 import com.querydsl.core.types.Predicate;
 
 @RestController
 public class CustomerApi extends BaseApi {
 
   @Autowired
-  private CustomerRepository customerRepository;
+  private CustomerService customerService;
 
   @GetMapping(value = "/customers/search")
   @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
   public Iterable<Customer> searchAll(@QuerydslPredicate(root = Customer.class) Predicate predicate,
       Pageable pageable) {
-    return customerRepository.findAll(predicate, pageable);
+    return customerService.findAll(predicate, pageable);
   }
 }
