@@ -22,11 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.cmsapi.vo.ResponseBodyVO;
 import com.ecash.ecashcore.model.User;
+import com.ecash.ecashcore.repository.UserRepository;
 import com.ecash.ecashcore.service.UserService;
 import com.querydsl.core.types.Predicate;
 
 @RestController
 public class UserApi extends BaseApi {
+
+  @Autowired
+  private UserRepository userRepository;
   
   @Autowired
   private AuthenticationManager authenticationManager;
@@ -48,7 +52,7 @@ public class UserApi extends BaseApi {
     
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    User user = userService.getById(id);
+    User user = userRepository.findOne(id);
     if (user == null) {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
@@ -64,7 +68,7 @@ public class UserApi extends BaseApi {
     }
     user.setPassword(newPassword);
     user.encodePassword(passwordEncoder);
-    userService.save(user);
+    userRepository.save(user);
     return ResponseEntity.ok(user); 
   }
   
@@ -76,7 +80,7 @@ public class UserApi extends BaseApi {
     
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    User user = userService.getById(id);
+    User user = userRepository.findOne(id);
     if (user == null) {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
@@ -88,7 +92,7 @@ public class UserApi extends BaseApi {
     }
     user.setPassword(newPassword);
     user.encodePassword(passwordEncoder);
-    userService.save(user);
+    userRepository.save(user);
     return ResponseEntity.ok(user); 
   }
 }
