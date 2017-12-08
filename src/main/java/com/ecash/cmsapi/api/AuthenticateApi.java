@@ -1,6 +1,7 @@
 package com.ecash.cmsapi.api;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -71,7 +73,7 @@ public class AuthenticateApi extends BaseApi {
     userService.save(user);
 
     httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
-    ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Login successfully.", null, null);
+    ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Login successfully.", null, user);
     return ResponseEntity.ok(data);
   }
 
@@ -88,7 +90,7 @@ public class AuthenticateApi extends BaseApi {
       userService.save(user);
       String refreshedToken = jwtTokenUtil.refreshToken(authToken);
       httpSession.setAttribute(tokenHeader, tokenPrefix + " " + refreshedToken);
-      ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Refresh token successfully.", null, null);
+      ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Refresh token successfully.", null, user);
       return ResponseEntity.ok(data);
     } else {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error on refesh token.", null, null);
