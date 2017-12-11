@@ -30,10 +30,8 @@ import com.querydsl.core.types.Predicate;
 public class UserApi extends BaseApi {
 
   @Autowired
-  private UserRepository userRepository;
-  
-  @Autowired
   private AuthenticationManager authenticationManager;
+  @Autowired
   private UserService userService;
 
   @GetMapping(value = "/users/search")
@@ -49,10 +47,8 @@ public class UserApi extends BaseApi {
     String oldPassword = body.get("oldPassword");
     String newPassword = body.get("newPassword");
     String confirmNewPassword = body.get("confirmNewPassword");
-    
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    User user = userRepository.findOne(id);
+    User user  = userService.getById(id);
     if (user == null) {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
@@ -66,9 +62,7 @@ public class UserApi extends BaseApi {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Change password error.", null, null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
-    user.setPassword(newPassword);
-    user.encodePassword(passwordEncoder);
-    userRepository.save(user);
+    userService.changePassword(user, newPassword);
     return ResponseEntity.ok(user); 
   }
   
@@ -77,10 +71,8 @@ public class UserApi extends BaseApi {
     String id = body.get("id");
     String newPassword = body.get("newPassword");
     String confirmNewPassword = body.get("confirmNewPassword");
-    
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    User user = userRepository.findOne(id);
+    User user = userService.getById(id);
     if (user == null) {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
@@ -90,9 +82,38 @@ public class UserApi extends BaseApi {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Change password error.", null, null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
-    user.setPassword(newPassword);
-    user.encodePassword(passwordEncoder);
-    userRepository.save(user);
+    String currentUsername = this.getCurrentUser();
+    userService.resetPassword(user, currentUsername, newPassword);
     return ResponseEntity.ok(user); 
   }
+
+  @RequestMapping(value = "/users/update-status", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+  public ResponseEntity<?> updateStatus(@RequestBody Map<String, String> body) {
+    String id = body.get("id");
+    String status = body.get("status");
+
+    User user = userService.getById(id);
+    if (user == null) {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+    String currentUsername = this.getCurrentUser();
+    userService.updateStatus(user, status, currentUsername);
+    return ResponseEntity.ok(user); 
+  }
+  
+  @RequestMapping(value = "/users/update-setting", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+  public ResponseEntity<?> updateSetting(@RequestBody Map<String, String> body) {
+    String id = body.get("id");
+    String key = body.get("key");
+    String value = body.get("value");
+    User user = userService.getById(id);
+    if (user == null) {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+    userService.updateSetting(user, key, value);
+    return ResponseEntity.ok(user); 
+  }
+  
 }

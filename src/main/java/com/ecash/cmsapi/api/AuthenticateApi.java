@@ -58,6 +58,7 @@ public class AuthenticateApi extends BaseApi {
       HttpServletResponse response) {
     String username = vo.getUsername();
     String password = vo.getPassword();
+    String language = vo.getLanguage();
 
     // Perform the security
     final Authentication authentication = authenticationManager
@@ -71,6 +72,9 @@ public class AuthenticateApi extends BaseApi {
     User user = userService.getByUsername(userDetails.getUsername());
     user.setLastLogin(new Date());
     userService.save(user);
+    if (language != null && !language.equals("")) {
+      userService.updateSetting(user, "language", language);
+    }
 
     httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
     ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Login successfully.", null, user);

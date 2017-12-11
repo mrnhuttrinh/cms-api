@@ -4,11 +4,13 @@ public class LoginVO {
 
   private String username;
   private String password;
+  private String language;
 
-  public LoginVO(String username, String password) {
+  public LoginVO(String username, String password, String language) {
     super();
     this.username = username;
     this.password = password;
+    this.language = language;
   }
 
   public LoginVO() {
@@ -29,5 +31,13 @@ public class LoginVO {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
   }
 }
