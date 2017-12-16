@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.cmsapi.vo.AccountUpdateVo;
-import com.ecash.ecashcore.model.Account;
+import com.ecash.ecashcore.model.cms.Account;
 import com.ecash.ecashcore.service.AccountService;
 import com.querydsl.core.types.Predicate;
 

@@ -3,7 +3,7 @@ package com.ecash.cmsapi.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 
-import com.ecash.ecashcore.model.Role;
+import com.ecash.ecashcore.model.cms.Role;
 
 public class EcashGrantedAuthority implements GrantedAuthority {
 

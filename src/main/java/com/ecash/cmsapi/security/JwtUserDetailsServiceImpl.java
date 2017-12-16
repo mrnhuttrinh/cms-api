@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ecash.ecashcore.model.Role;
-import com.ecash.ecashcore.model.User;
+import com.ecash.ecashcore.model.cms.Role;
+import com.ecash.ecashcore.model.cms.User;
 import com.ecash.ecashcore.repository.UserRepository;
 
 @Service
