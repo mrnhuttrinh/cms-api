@@ -6,7 +6,7 @@ import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import com.ecash.ecashcore.model.Permission;
+import com.ecash.ecashcore.model.cms.Permission;
 
 public class EcashPermissionEvaluator implements PermissionEvaluator {
 

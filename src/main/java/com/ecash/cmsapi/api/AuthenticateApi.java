@@ -1,7 +1,6 @@
 package com.ecash.cmsapi.api;
 
 import java.util.Date;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecash.cmsapi.security.JwtTokenUtil;
 import com.ecash.cmsapi.vo.LoginVO;
 import com.ecash.cmsapi.vo.ResponseBodyVO;
-import com.ecash.ecashcore.model.User;
+import com.ecash.ecashcore.model.cms.User;
 import com.ecash.ecashcore.service.UserService;
 
 @RestController

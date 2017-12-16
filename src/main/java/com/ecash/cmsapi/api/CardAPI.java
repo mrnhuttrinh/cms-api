@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecash.ecashcore.model.Card;
+import com.ecash.ecashcore.model.cms.Card;
 import com.ecash.ecashcore.service.CardService;
 import com.ecash.ecashcore.vo.request.UpdateCardStatusRequestVO;
 import com.querydsl.core.types.Predicate;

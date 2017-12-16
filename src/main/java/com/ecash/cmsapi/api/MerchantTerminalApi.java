@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecash.ecashcore.model.MerchantTerminal;
+import com.ecash.ecashcore.model.cms.MerchantTerminal;
 import com.ecash.ecashcore.service.MerchantTerminalService;
 import com.querydsl.core.types.Predicate;
 
