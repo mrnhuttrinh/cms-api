@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecash.cmsapi.api.constant.ResponseConstant;
 import com.ecash.cmsapi.vo.ResponseBodyVO;
 import com.ecash.ecashcore.service.SyncService;
-import com.ecash.ecashcore.vo.InputCardVO;
+import com.ecash.ecashcore.vo.SyncVO;
 
 @RestController
 public class SyncApi extends BaseApi {
@@ -22,8 +22,8 @@ public class SyncApi extends BaseApi {
   SyncService syncService;
 
   @RequestMapping(value = "${api.url.scms.syncdata}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> addCard(@RequestBody List<InputCardVO> inputCards) {
-    syncService.syncData(inputCards);
+  public ResponseEntity<?> addCard(@RequestBody List<SyncVO> inputCards) {
+    syncService.sync(inputCards);
     return ResponseEntity
         .ok(new ResponseBodyVO(HttpStatus.OK.value(), ResponseConstant.SUCCESS, "Save successfully!", null));
   }
