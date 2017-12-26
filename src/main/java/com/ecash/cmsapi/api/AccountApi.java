@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecash.cmsapi.vo.AccountUpdateVo;
+import com.ecash.cmsapi.vo.AccountUpdateVO;
 import com.ecash.ecashcore.model.cms.Account;
 import com.ecash.ecashcore.service.AccountService;
 import com.querydsl.core.types.Predicate;
@@ -33,11 +33,11 @@ public class AccountApi extends BaseApi {
   }
   
   @RequestMapping(value = "${api.url.account.update}", method = RequestMethod.PUT, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> updateCardStatus(@RequestBody AccountUpdateVo request) {
+  public ResponseEntity<?> updateAccountStatus(@RequestBody AccountUpdateVO request) {
     Account account = new Account();
     account.setId(request.getId());
     account.setStatus(request.getStatus());
-    accountService.updateAccount(account, getCurrentUser());
+    accountService.updateAccountStatus(account, getCurrentUser());
     return ResponseEntity.ok(request);
   }
 }

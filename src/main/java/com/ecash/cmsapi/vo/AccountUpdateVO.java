@@ -1,6 +1,6 @@
 package com.ecash.cmsapi.vo;
 
-public class AccountUpdateVo {
+public class AccountUpdateVO {
   private String id;
   private String status;
   public String getId() {
