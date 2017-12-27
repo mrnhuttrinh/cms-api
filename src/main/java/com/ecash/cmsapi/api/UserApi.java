@@ -32,7 +32,7 @@ public class UserApi extends BaseApi {
   private UserService userService;
 
   @GetMapping(value = "/users/search")
-  @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
+  @PreAuthorize(value = "hasPermission(null, 'USER_LIST/VIEW')")
   public Iterable<User> searchAll(@QuerydslPredicate(root = User.class) Predicate predicate,
       Pageable pageable) {
     return userService.findAll(predicate, pageable);

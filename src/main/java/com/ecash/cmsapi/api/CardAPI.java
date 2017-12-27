@@ -28,7 +28,7 @@ public class CardAPI extends BaseApi {
   }
   
   @GetMapping(value = "/cards/search")
-  @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
+  @PreAuthorize(value = "hasPermission(null, 'CARD_LIST/VIEW')")
   public Iterable<Card> searchAll(@QuerydslPredicate(root = Card.class) Predicate predicate,
       Pageable pageable) {
     return cardService.findAll(predicate, pageable);
