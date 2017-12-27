@@ -23,7 +23,7 @@ public class WalletAPI extends BaseApi {
   @Autowired
   WalletService walletService;
   @GetMapping(value = "/wallets/search")
-  @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
+  @PreAuthorize(value = "hasPermission(null, 'WALLET_LIST/VIEW')")
   public Iterable<Wallet> searchAll(
       @QuerydslPredicate(root = Wallet.class) Predicate predicate,
       Pageable pageable) {

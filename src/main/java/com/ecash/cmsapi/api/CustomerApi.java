@@ -18,7 +18,7 @@ public class CustomerApi extends BaseApi {
   private CustomerService customerService;
 
   @GetMapping(value = "/customers/search")
-  @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
+  @PreAuthorize(value = "hasPermission(null, 'CUSTOMER_LIST/VIEW')")
   public Iterable<Customer> searchAll(@QuerydslPredicate(root = Customer.class) Predicate predicate,
       Pageable pageable) {
     return customerService.findAll(predicate, pageable);

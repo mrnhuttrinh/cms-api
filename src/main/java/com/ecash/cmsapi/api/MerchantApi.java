@@ -18,7 +18,7 @@ public class MerchantApi extends BaseApi {
   MerchantService merchantService;
   
   @GetMapping(value = "/merchants/search")
-  @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
+  @PreAuthorize(value = "hasPermission(null, 'MERCHANT_LIST/VIEW')")
   public Iterable<Merchant> searchAll(@QuerydslPredicate(root = Merchant.class) Predicate predicate,
       Pageable pageable) {
     return merchantService.findAll(predicate, pageable);
