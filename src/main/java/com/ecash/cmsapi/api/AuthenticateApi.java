@@ -63,11 +63,15 @@ public class AuthenticateApi extends BaseApi {
     String password = vo.getPassword();
     String language = vo.getLanguage();
 
-    String cacheToken = redisService.get(username);
-    if (cacheToken != null && jwtTokenUtil.canTokenBeRefreshed(cacheToken)) {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "User was online.", null,
-          null);
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    try {
+      String cacheToken = redisService.get(username);
+      if (cacheToken != null && jwtTokenUtil.canTokenBeRefreshed(cacheToken)) {
+        ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "User was online.", null,
+            null);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+      }
+    } catch (Exception e) {
+      // TODO
     }
 
     // Perform the security
