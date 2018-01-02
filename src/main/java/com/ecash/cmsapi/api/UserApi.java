@@ -62,6 +62,17 @@ public class UserApi extends BaseApi {
     userService.changePassword(user, newPassword);
     return ResponseEntity.ok(user); 
   }
+
+  @RequestMapping(value = "/users/update-information", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+  public ResponseEntity<?> updateUserInformation(@RequestBody User user) {
+    if (user == null) {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+    String currentUsername = this.getCurrentUser();
+    userService.updateInformation(user, currentUsername);
+    return ResponseEntity.ok(user); 
+  }
   
   @RequestMapping(value = "/users/reset-password", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body) {
