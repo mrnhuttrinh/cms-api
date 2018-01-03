@@ -14,9 +14,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CardStatementJob
+public class StatementJob
 {
-  private static final Logger LOGGER = LoggerFactory.getLogger(CardStatementJob.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(StatementJob.class);
 
   @Autowired
   private SimpleJobLauncher jobLauncher;
@@ -24,15 +24,29 @@ public class CardStatementJob
   @Autowired
   private Job processCardStatementJob;
 
+  @Autowired
+  private Job processMerchantStatementJob;
+
   // @Scheduled(fixedDelay = 5000)
-  @Scheduled(cron = "${cron.expression}")
-  public void perform() throws Exception
+  @Scheduled(cron = "${card.cron.expression}")
+  public void performCardStatementJob() throws Exception
   {
-    LOGGER.info("Job Started at: %s", new Date());
+    LOGGER.info("Job Started at: {}", new Date());
     JobParameters param = new JobParametersBuilder().addString("CardStatementJob",
         String.valueOf(System.currentTimeMillis())).toJobParameters();
     JobExecution execution = jobLauncher.run(processCardStatementJob, param);
-    LOGGER.info("Job finished with status :", execution.getStatus());
+    LOGGER.info("Job finished with status: {}", execution.getStatus());
+  }
+
+//   @Scheduled(fixedDelay = 5000)
+  @Scheduled(cron = "${merchant.cron.expression}")
+  public void performMerchantStatementJob() throws Exception
+  {
+    LOGGER.info("Job Started at: {}", new Date());
+    JobParameters param = new JobParametersBuilder().addString("MerchantStatementJob",
+        String.valueOf(System.currentTimeMillis())).toJobParameters();
+    JobExecution execution = jobLauncher.run(processMerchantStatementJob, param);
+    LOGGER.info("Job finished with status: {}", execution.getStatus());
   }
 
 }

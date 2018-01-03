@@ -30,7 +30,7 @@ public class CardStatementProcessor implements ItemProcessor<TransactionVO, Card
     cardStatementVO.setDueDate(transaction.getDate());
     cardStatementVO.setPaymentAmount(transaction.getAmount());
     cardStatementVO.setCard_number(transaction.getCardNumber());
-    LOG.info("Creating cardStatement: %s", cardStatementVO);
+    LOG.info("Creating cardStatement: {}", cardStatementVO);
     return cardStatementVO;
   }
 
