@@ -10,6 +10,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ public class StatementJob
   @Autowired
   private Job processCardStatementJob;
 
+  @Qualifier("merchantStatementJob")
   @Autowired
   private Job processMerchantStatementJob;
 
