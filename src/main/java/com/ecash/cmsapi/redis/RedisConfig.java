@@ -21,6 +21,13 @@ public class RedisConfig extends CachingConfigurerSupport {
 
   @Bean(name = "redisClient")
   public JedisPool redisClient() {
-    return new JedisPool(new JedisPoolConfig(), redisHost, Integer.parseInt(redisPort));
+    try {
+      JedisPool newRedisInstance = new JedisPool(new JedisPoolConfig(), redisHost, Integer.parseInt(redisPort));
+      // delete everything existing
+      (newRedisInstance.getResource()).flushAll();
+      return newRedisInstance;
+    } catch (Exception ex) {
+      return new JedisPool(new JedisPoolConfig(), redisHost, Integer.parseInt(redisPort));
+    }
   }
 }

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.ecash.cmsapi.redis.RedisService;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,6 +33,9 @@ public class JwtTokenUtil implements Serializable {
 
   @Autowired
   private TimeProvider timeProvider;
+  
+  @Autowired
+  private RedisService redisService;
 
   @Value("${jwt.secret}")
   private String secret;
@@ -106,5 +111,17 @@ public class JwtTokenUtil implements Serializable {
 
   private Date calculateExpirationDate(Date createdDate) {
     return new Date(createdDate.getTime() + expiration * 1000);
+  }
+  
+  public String getTokenFromRedisCache(String username) {
+    return redisService.get(username);
+  }
+  
+  public void setTokenToRedisCache(String key, String value) {
+    redisService.set(key, value);
+  }
+
+  public void deleteTokenToRedisCache(String key) {
+    redisService.del(key);
   }
 }

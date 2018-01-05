@@ -12,4 +12,6 @@ public interface CacheService {
   public String set(String key, String value);
 
   public void del(String key);
+  
+  public void flushAll();
 }

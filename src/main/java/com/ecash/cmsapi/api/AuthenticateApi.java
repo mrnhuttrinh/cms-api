@@ -53,9 +53,6 @@ public class AuthenticateApi extends BaseApi {
   @Autowired
   public UserService userService;
 
-  @Autowired
-  private RedisService redisService;
-
   @RequestMapping(value = "/authenticate", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> authenticateUser(@RequestBody LoginVO vo, HttpServletRequest request,
       HttpServletResponse response) {
@@ -64,7 +61,7 @@ public class AuthenticateApi extends BaseApi {
     String language = vo.getLanguage();
 
     try {
-      String cacheToken = redisService.get(username);
+      String cacheToken = jwtTokenUtil.getTokenFromRedisCache(username);
       if (cacheToken != null && jwtTokenUtil.canTokenBeRefreshed(cacheToken)) {
         ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "User was online.", null,
             null);
@@ -91,7 +88,7 @@ public class AuthenticateApi extends BaseApi {
     }
 
     httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
-    redisService.set(username, token);
+    jwtTokenUtil.setTokenToRedisCache(username, token);
     ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Login successfully.", null, user);
     return ResponseEntity.ok(data);
   }
@@ -109,7 +106,7 @@ public class AuthenticateApi extends BaseApi {
       userService.save(user);
       String refreshedToken = jwtTokenUtil.refreshToken(authToken);
       httpSession.setAttribute(tokenHeader, tokenPrefix + " " + refreshedToken);
-      redisService.set(username, refreshedToken);
+      jwtTokenUtil.setTokenToRedisCache(username, refreshedToken);
       ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Refresh token successfully.", null, user);
       return ResponseEntity.ok(data);
     } else {
@@ -127,7 +124,7 @@ public class AuthenticateApi extends BaseApi {
     if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
       String username = jwtTokenUtil.getUsernameFromToken(authToken);
       httpSession.removeAttribute(tokenHeader);
-      redisService.del(username);
+      jwtTokenUtil.deleteTokenToRedisCache(username);
       ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Sign out successfully.", null, null);
       return ResponseEntity.ok(data);
     } else {

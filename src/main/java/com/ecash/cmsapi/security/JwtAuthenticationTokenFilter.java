@@ -66,6 +66,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
       }
     } else {
       logger.warn("couldn't find bearer string, will ignore the header");
+      SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     logger.info("checking authentication for user " + username);
@@ -86,6 +87,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         logger.info("authenticated user " + username + ", setting security context");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         session.setAttribute(tokenHeader, tokenPrefix + " " + authToken);
+      }
+    } else if (username != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+      String cacheToken = jwtTokenUtil.getTokenFromRedisCache(username);
+      if (cacheToken == null || cacheToken == "") {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        session.removeAttribute(tokenHeader);
       }
     }
 

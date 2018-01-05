@@ -84,4 +84,16 @@ public class RedisService implements CacheService {
       }
     }
   }
+
+  public void flushAll() {
+    Jedis jedis = null;
+    try {
+      jedis = pool.getResource();
+      jedis.flushAll();
+    } finally {
+      if (jedis != null) {
+        jedis.close();
+      }
+    }
+  }
 }
