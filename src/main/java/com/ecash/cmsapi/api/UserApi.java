@@ -24,7 +24,8 @@ import com.ecash.ecashcore.service.UserService;
 import com.querydsl.core.types.Predicate;
 
 @RestController
-public class UserApi extends BaseApi {
+public class UserApi extends BaseApi
+{
 
   @Autowired
   private AuthenticationManager authenticationManager;
@@ -34,94 +35,117 @@ public class UserApi extends BaseApi {
   @GetMapping(value = "/users/search")
   @PreAuthorize(value = "hasPermission(null, 'USER_LIST/VIEW')")
   public Iterable<User> searchAll(@QuerydslPredicate(root = User.class) Predicate predicate,
-      Pageable pageable) {
+      Pageable pageable)
+  {
     return userService.findAll(predicate, pageable);
   }
-  
+
   @RequestMapping(value = "/users/change-password", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> changePassword(@RequestBody Map<String, String> body) {
+  public ResponseEntity<?> changePassword(@RequestBody Map<String, String> body)
+  {
     String id = body.get("id");
     String oldPassword = body.get("oldPassword");
     String newPassword = body.get("newPassword");
     String confirmNewPassword = body.get("confirmNewPassword");
 
-    User user  = userService.getById(id);
-    if (user == null) {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
+    User user = userService.getById(id);
+    if (user == null)
+    {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.",
+          null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
-    
+
     final Authentication authentication = authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), oldPassword));
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    if (!newPassword.equals(confirmNewPassword)) {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Change password error.", null, null);
+    if (!newPassword.equals(confirmNewPassword))
+    {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+          "Change password error.", null, null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
     userService.changePassword(user, newPassword);
-    return ResponseEntity.ok(user); 
+    return ResponseEntity.ok(user);
   }
 
   @RequestMapping(value = "/users/update-information", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> updateUserInformation(@RequestBody User user) {
-    if (user == null) {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
+  public ResponseEntity<?> updateUserInformation(@RequestBody User user)
+  {
+    if (user == null)
+    {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.",
+          null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
     String currentUsername = this.getCurrentUser();
-    userService.updateInformation(user, currentUsername);
-    return ResponseEntity.ok(user); 
+    User currentUser = userService.getByUsername(currentUsername);
+    userService.updateInformation(user, currentUser);
+    return ResponseEntity.ok(user);
   }
-  
+
   @RequestMapping(value = "/users/reset-password", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body) {
+  public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body)
+  {
     String id = body.get("id");
     String newPassword = body.get("newPassword");
     String confirmNewPassword = body.get("confirmNewPassword");
 
     User user = userService.getById(id);
-    if (user == null) {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
+    if (user == null)
+    {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.",
+          null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    if (!newPassword.equals(confirmNewPassword)) {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Change password error.", null, null);
+    if (!newPassword.equals(confirmNewPassword))
+    {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+          "Change password error.", null, null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
     String currentUsername = this.getCurrentUser();
-    userService.resetPassword(user, currentUsername, newPassword);
-    return ResponseEntity.ok(user); 
+    User currentUser = userService.getByUsername(currentUsername);
+    userService.resetPassword(user, currentUser, newPassword);
+    return ResponseEntity.ok(user);
   }
 
   @RequestMapping(value = "/users/update-status", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> updateStatus(@RequestBody Map<String, String> body) {
+  public ResponseEntity<?> updateStatus(@RequestBody Map<String, String> body)
+  {
     String id = body.get("id");
     String status = body.get("status");
 
     User user = userService.getById(id);
-    if (user == null) {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
+    if (user == null)
+    {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.",
+          null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
     String currentUsername = this.getCurrentUser();
-    userService.updateStatus(user, status, currentUsername);
-    return ResponseEntity.ok(user); 
+    User currentUser = userService.getByUsername(currentUsername);
+    userService.updateStatus(user, status, currentUser);
+    return ResponseEntity.ok(user);
   }
-  
+
   @RequestMapping(value = "/users/update-setting", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> updateSetting(@RequestBody Map<String, String> body) {
+  public ResponseEntity<?> updateSetting(@RequestBody Map<String, String> body)
+  {
     String id = body.get("id");
     String key = body.get("key");
     String value = body.get("value");
     User user = userService.getById(id);
-    if (user == null) {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.", null, null);
+    if (user == null)
+    {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.",
+          null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
     userService.updateSetting(user, key, value);
-    return ResponseEntity.ok(user); 
+    return ResponseEntity.ok(user);
   }
-  
+
 }
