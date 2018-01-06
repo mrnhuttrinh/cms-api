@@ -66,8 +66,8 @@ public class UserApi extends BaseApi
           "Change password error.", null, null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
-    userService.changePassword(user, newPassword);
-    return ResponseEntity.ok(user);
+    user = userService.changePassword(user, newPassword);
+    return ResponseEntity.ok(user); 
   }
 
   @RequestMapping(value = "/users/update-information", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
@@ -81,8 +81,8 @@ public class UserApi extends BaseApi
     }
     String currentUsername = this.getCurrentUser();
     User currentUser = userService.getByUsername(currentUsername);
-    userService.updateInformation(user, currentUser);
-    return ResponseEntity.ok(user);
+    user = userService.updateInformation(user, currentUser);
+    return ResponseEntity.ok(user); 
   }
 
   @RequestMapping(value = "/users/reset-password", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
@@ -108,8 +108,8 @@ public class UserApi extends BaseApi
     }
     String currentUsername = this.getCurrentUser();
     User currentUser = userService.getByUsername(currentUsername);
-    userService.resetPassword(user, currentUser, newPassword);
-    return ResponseEntity.ok(user);
+    user = userService.resetPassword(user, currentUser, newPassword);
+    return ResponseEntity.ok(user); 
   }
 
   @RequestMapping(value = "/users/update-status", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
@@ -127,8 +127,8 @@ public class UserApi extends BaseApi
     }
     String currentUsername = this.getCurrentUser();
     User currentUser = userService.getByUsername(currentUsername);
-    userService.updateStatus(user, status, currentUser);
-    return ResponseEntity.ok(user);
+    user = userService.updateStatus(user, status, currentUser);
+    return ResponseEntity.ok(user); 
   }
 
   @RequestMapping(value = "/users/update-setting", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
@@ -144,8 +144,8 @@ public class UserApi extends BaseApi
           null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
-    userService.updateSetting(user, key, value);
-    return ResponseEntity.ok(user);
+    user = userService.updateSetting(user, key, value);
+    return ResponseEntity.ok(user); 
   }
 
 }
