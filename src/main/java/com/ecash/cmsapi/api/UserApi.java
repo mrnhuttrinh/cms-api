@@ -1,5 +1,7 @@
 package com.ecash.cmsapi.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.cmsapi.vo.ResponseBodyVO;
+import com.ecash.ecashcore.enums.StatusEnum;
+import com.ecash.ecashcore.model.cms.Role;
 import com.ecash.ecashcore.model.cms.User;
+import com.ecash.ecashcore.service.RoleService;
 import com.ecash.ecashcore.service.UserService;
 import com.querydsl.core.types.Predicate;
 
@@ -31,6 +36,8 @@ public class UserApi extends BaseApi
   private AuthenticationManager authenticationManager;
   @Autowired
   private UserService userService;
+  @Autowired
+  private RoleService roleService;
 
   @GetMapping(value = "/users/search")
   @PreAuthorize(value = "hasPermission(null, 'USER_LIST/VIEW')")
@@ -146,6 +153,40 @@ public class UserApi extends BaseApi
     }
     user = userService.updateSetting(user, key, value);
     return ResponseEntity.ok(user); 
+  }
+  
+  @RequestMapping(value = "/user", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+  public ResponseEntity<?> addNewUser(@RequestBody Map<String, String> body)
+  {
+      try {
+          String firstName = body.get("firstName");
+          String lastName = body.get("lastName");
+          String email = body.get("email");
+          String username = body.get("username");
+          String role = body.get("role");
+          String status = body.get("status");
+
+          User newUser = new User();
+          if (StatusEnum.ACTIVE.getName().equals(status)) {
+              newUser.setEnabled(true);
+          }
+          newUser.setEmail(email);
+          newUser.setUsername(username);
+          newUser.setFirstName(firstName);
+          newUser.setLastName(lastName);
+          List<Role> roles = new ArrayList<Role>();
+          roles.add(roleService.findById(role));
+          newUser.setRoles(roles);
+     
+          String currentUsername = this.getCurrentUser();
+          newUser = userService.addNewUser(newUser, currentUsername);
+          return new ResponseEntity<User>(newUser, HttpStatus.OK);
+      } catch (Exception ex) {
+          ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(),
+                  null, null);
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+      }
+ 
   }
 
 }
