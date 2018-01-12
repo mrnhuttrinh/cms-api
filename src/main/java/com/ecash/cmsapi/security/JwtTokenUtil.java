@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.ecash.cmsapi.redis.RedisService;
+import com.ecash.ecashcore.model.cms.User;
+import com.ecash.ecashcore.service.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -42,6 +44,9 @@ public class JwtTokenUtil implements Serializable {
 
   @Value("${jwt.expiration}")
   private Long expiration;
+  
+  @Autowired
+  public UserService userService;
 
   public String getUsernameFromToken(String token) {
     return getClaimFromToken(token, Claims::getSubject);
@@ -114,7 +119,14 @@ public class JwtTokenUtil implements Serializable {
   }
   
   public String getTokenFromRedisCache(String username) {
-    return redisService.get(username);
+    User user = userService.getByUsername(username);
+    if (user == null) {
+      user = userService.getByEmail(username);
+    }
+    if (user == null) {
+      return null;
+    }
+    return redisService.get(user.getId());
   }
   
   public void setTokenToRedisCache(String key, String value) {

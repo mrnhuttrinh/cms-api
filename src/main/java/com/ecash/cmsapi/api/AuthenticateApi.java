@@ -88,7 +88,7 @@ public class AuthenticateApi extends BaseApi {
     }
 
     httpSession.setAttribute(tokenHeader, tokenPrefix + " " + token);
-    jwtTokenUtil.setTokenToRedisCache(username, token);
+    jwtTokenUtil.setTokenToRedisCache(user.getId(), token);
     ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Login successfully.", null, user);
     return ResponseEntity.ok(data);
   }
@@ -106,7 +106,7 @@ public class AuthenticateApi extends BaseApi {
       userService.save(user);
       String refreshedToken = jwtTokenUtil.refreshToken(authToken);
       httpSession.setAttribute(tokenHeader, tokenPrefix + " " + refreshedToken);
-      jwtTokenUtil.setTokenToRedisCache(username, refreshedToken);
+      jwtTokenUtil.setTokenToRedisCache(user.getId(), refreshedToken);
       ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Refresh token successfully.", null, user);
       return ResponseEntity.ok(data);
     } else {
@@ -123,8 +123,9 @@ public class AuthenticateApi extends BaseApi {
 
     if (jwtTokenUtil.canTokenBeRefreshed(authToken)) {
       String username = jwtTokenUtil.getUsernameFromToken(authToken);
+      User user = userService.getByUsername(username);
       httpSession.removeAttribute(tokenHeader);
-      jwtTokenUtil.deleteTokenToRedisCache(username);
+      jwtTokenUtil.deleteTokenToRedisCache(user.getId());
       ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Sign out successfully.", null, null);
       return ResponseEntity.ok(data);
     } else {
