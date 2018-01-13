@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ecash.ecashcore.enums.RoleEnum;
 import com.ecash.ecashcore.model.cms.Role;
 import com.ecash.ecashcore.model.cms.User;
 import com.ecash.ecashcore.repository.UserRepository;
@@ -32,7 +33,9 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
       user = userRepository.findByEmail(username);
     }
     List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
-
+    if (!RoleEnum.ADMIN.getName().equals(user.getRoles().get(0).getName())) {
+      throw new Error("Your account not enough permission!");
+    }
     return buildUserForAuthentication(user, authorities);
   }
 

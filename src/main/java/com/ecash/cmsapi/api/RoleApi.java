@@ -31,22 +31,34 @@ public class RoleApi extends BaseApi {
 
   @Autowired
   RoleService roleService;
-  
+
   @GetMapping(value = "/roles/search")
   @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
-  public Iterable<Role> searchAll(@QuerydslPredicate(root = Role.class) Predicate predicate,
-      Pageable pageable) {
+  public Iterable<Role> searchAll(@QuerydslPredicate(root = Role.class) Predicate predicate, Pageable pageable) {
     return roleService.findAll(predicate, pageable);
   }
-  
+
   @RequestMapping(value = "/roles/update-permission/{id}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> updateRolePermission(@PathVariable("id") String id, @RequestBody List<Permission> permissions) {
+  public ResponseEntity<?> updateRolePermission(@PathVariable("id") String id,
+      @RequestBody List<Permission> permissions) {
     Role role = roleService.findById(id);
     if (role == null) {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "Role not found.", null, null);
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
     role = roleService.updateRolePermission(role, permissions);
-    return ResponseEntity.ok(role); 
+    return ResponseEntity.ok(role);
+  }
+
+  @RequestMapping(value = "/role", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+  public ResponseEntity<?> addNewRole(@RequestBody Map<String, Object> body) {
+    try {
+      String roleName = body.get("roleName").toString();
+      Role newRole = roleService.addNewRole(roleName);
+      return new ResponseEntity<Role>(newRole, HttpStatus.OK);
+    } catch (Exception ex) {
+      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), null, null);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
   }
 }
