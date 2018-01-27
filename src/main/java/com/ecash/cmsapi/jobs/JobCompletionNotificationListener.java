@@ -19,17 +19,17 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
   {
     if (jobExecution.getStatus() == BatchStatus.COMPLETED)
     {
-      log.info("JOB {0}-{1} FINISHED", jobExecution.getJobConfigurationName(),
+      log.info("JOB {}-{} FINISHED", jobExecution.getJobConfigurationName(),
           jobExecution.getJobId());
     }
     else if (jobExecution.getStatus().equals(BatchStatus.FAILED))
     {
-      log.error("JOB {0}-{1} FAILED", jobExecution.getJobConfigurationName(),
+      log.error("JOB {}-{} FAILED", jobExecution.getJobConfigurationName(),
           jobExecution.getJobId());
     }
     else
     {
-      log.debug("JOB {0}-{1} {2}", jobExecution.getJobConfigurationName(),
+      log.debug("JOB {}-{} {}", jobExecution.getJobConfigurationName(),
           jobExecution.getJobId(), jobExecution.getStatus());
     }
   }

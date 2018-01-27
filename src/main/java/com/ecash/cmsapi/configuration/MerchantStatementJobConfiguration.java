@@ -1,5 +1,6 @@
 package com.ecash.cmsapi.configuration;
 
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
@@ -15,9 +16,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import com.ecash.cmsapi.jobs.MerchantSettlementItemWriter;
 import com.ecash.cmsapi.jobs.MerchantStatementItemWriter;
 import com.ecash.cmsapi.jobs.MerchantStatementProcessor;
+import com.ecash.cmsapi.jobs.MerchantStatementReader;
+import com.ecash.cmsapi.jobs.MerchantTransactionProcessor;
 import com.ecash.cmsapi.jobs.TransactionReaderForMerchant;
+import com.ecash.ecashcore.service.MerchantStatementService;
 import com.ecash.ecashcore.service.TransactionService;
 import com.ecash.ecashcore.vo.MerchantStatementVO;
 import com.ecash.ecashcore.vo.TransactionVO;
@@ -38,15 +43,30 @@ public class MerchantStatementJobConfiguration
   private TransactionService transactionService;
 
   @Autowired
+  private MerchantStatementService merchantStatementService;
+
+  @Autowired
   JobExecutionListener listener;
 
   @Bean
-  ItemReader<TransactionVO> merchantStatementReader()
+  ItemReader<TransactionVO> transactionForMerchantReader()
   {
     return new TransactionReaderForMerchant(transactionService);
   }
 
+  @Bean(name = "merchantStatementReader")
+  ItemReader<MerchantStatementVO> merchantStatementReader()
+  {
+    return new MerchantStatementReader(merchantStatementService);
+  }
+
   @Bean
+  public MerchantTransactionProcessor merchantTransactionProcessor()
+  {
+    return new MerchantTransactionProcessor();
+  }
+
+  @Bean(name = "merchantStatementProcessor")
   public MerchantStatementProcessor merchantStatementProcessor()
   {
     return new MerchantStatementProcessor();
@@ -58,13 +78,22 @@ public class MerchantStatementJobConfiguration
     return new MerchantStatementItemWriter();
   }
 
+  @Bean(name = "merchantSettlementItemWriter")
+  public ItemWriter<TransactionVO> merchantSettlementItemWriter()
+  {
+    return new MerchantSettlementItemWriter();
+  }
+
   @Bean(name = "merchantStatementJob")
   public Job processMerchantStatementJob()
   {
     return jobBuilderFactory.get("processMerchantStatementJob")
         .incrementer(new RunIdIncrementer())
         .listener(listener)
-        .flow(merchantStatementStep()).end().build();
+        .flow(merchantStatementStep())
+        .from(merchantStatementStep()).on(ExitStatus.COMPLETED.getExitCode())
+        .to(merchantSettlementStep())
+        .end().build();
   }
 
   @Bean
@@ -72,8 +101,18 @@ public class MerchantStatementJobConfiguration
   {
     return stepBuilderFactory.get("merchantStatementStep")
         .<TransactionVO, MerchantStatementVO> chunk(10)
-        .reader(merchantStatementReader()).processor(merchantStatementProcessor())
+        .reader(transactionForMerchantReader()).processor(merchantTransactionProcessor())
         .writer(merchantStatementWriter())
+        .build();
+  }
+
+  @Bean(name = "merchantSettlementStep")
+  public Step merchantSettlementStep()
+  {
+    return stepBuilderFactory.get("merchantSettlementStep")
+        .<MerchantStatementVO, TransactionVO> chunk(10)
+        .reader(merchantStatementReader()).processor(merchantStatementProcessor())
+        .writer(merchantSettlementItemWriter())
         .build();
   }
 

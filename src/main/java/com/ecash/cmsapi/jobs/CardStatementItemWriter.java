@@ -30,7 +30,7 @@ public class CardStatementItemWriter implements ItemWriter<CardStatementVO>
     {
       cardStatementSavedItem = cardStatementService
           .upsertCardStatement(cardStatement);
-      LOGGER.info("Save CardStatement: {}", cardStatementSavedItem);
+      LOGGER.info("Save CardStatement: {}", cardStatementSavedItem.toString());
     }
   }
 
