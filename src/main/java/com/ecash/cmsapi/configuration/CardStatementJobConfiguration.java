@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.ecash.cmsapi.jobs.CardStatementItemWriter;
-import com.ecash.cmsapi.jobs.CardStatementProcessor;
+import com.ecash.cmsapi.jobs.CardTransactionProcessor;
 import com.ecash.cmsapi.jobs.JobCompletionNotificationListener;
 import com.ecash.cmsapi.jobs.TransactionReader;
 import com.ecash.ecashcore.service.TransactionService;
@@ -45,9 +45,9 @@ public class CardStatementJobConfiguration
   }
 
   @Bean
-  public CardStatementProcessor processor()
+  public CardTransactionProcessor processor()
   {
-    return new CardStatementProcessor();
+    return new CardTransactionProcessor();
   }
 
   @Bean

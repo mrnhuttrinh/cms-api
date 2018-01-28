@@ -8,9 +8,9 @@ import com.ecash.ecashcore.vo.CardStatementDetailVO;
 import com.ecash.ecashcore.vo.CardStatementVO;
 import com.ecash.ecashcore.vo.TransactionVO;
 
-public class CardStatementProcessor implements ItemProcessor<TransactionVO, CardStatementVO>
+public class CardTransactionProcessor implements ItemProcessor<TransactionVO, CardStatementVO>
 {
-  private static final Logger LOG = LoggerFactory.getLogger(CardStatementProcessor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CardTransactionProcessor.class);
 
   @Override
   public CardStatementVO process(TransactionVO transaction) throws Exception
@@ -30,7 +30,7 @@ public class CardStatementProcessor implements ItemProcessor<TransactionVO, Card
     cardStatementVO.setDueDate(transaction.getDate());
     cardStatementVO.setPaymentAmount(transaction.getAmount());
     cardStatementVO.setCard_number(transaction.getCardNumber());
-    LOG.info("Creating cardStatement: {}", cardStatementVO);
+    LOG.info("Creating cardStatement: {}", cardStatementVO.toString());
     return cardStatementVO;
   }
 

@@ -17,6 +17,12 @@ public class DateUtil
     return Date
         .from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
   }
+  
+  public static Date getLastYear()
+  {
+    return Date
+        .from(LocalDate.now().minusDays(365).atStartOfDay(ZoneId.systemDefault()).toInstant());
+  }
 
   public static Date today()
   {

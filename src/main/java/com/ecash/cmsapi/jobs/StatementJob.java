@@ -29,7 +29,6 @@ public class StatementJob
   @Autowired
   private Job processMerchantStatementJob;
 
-  // @Scheduled(fixedDelay = 5000)
   @Scheduled(cron = "${card.cron.expression}")
   public void performCardStatementJob() throws Exception
   {
@@ -40,7 +39,6 @@ public class StatementJob
     LOGGER.info("Job finished with status: {}", execution.getStatus());
   }
 
-//   @Scheduled(fixedDelay = 5000)
   @Scheduled(cron = "${merchant.cron.expression}")
   public void performMerchantStatementJob() throws Exception
   {

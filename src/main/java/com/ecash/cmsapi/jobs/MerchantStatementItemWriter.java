@@ -30,7 +30,7 @@ public class MerchantStatementItemWriter implements ItemWriter<MerchantStatement
     {
       merchantStatementSavedItem = merchantStatementService
           .upsertMerchantStatement(merchantStatement);
-      LOGGER.info("Save MerchantStatement: {}", merchantStatementSavedItem);
+      LOGGER.info("Save MerchantStatement: {}", merchantStatementSavedItem.toString());
     }
   }
 
