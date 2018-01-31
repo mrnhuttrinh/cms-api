@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecash.cmsapi.redis.CacheService;
-import com.ecash.cmsapi.redis.RedisService;
 import com.ecash.cmsapi.security.JwtTokenUtil;
 import com.ecash.cmsapi.vo.LoginVO;
 import com.ecash.cmsapi.vo.ResponseBodyVO;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.batch.item.ItemReader;
 
-import com.ecash.cmsapi.util.DateUtil;
+import com.ecash.cmsapi.util.DateTimeUtils;
 import com.ecash.ecashcore.service.MerchantStatementService;
 import com.ecash.ecashcore.vo.MerchantStatementVO;
 
@@ -24,7 +24,7 @@ public class MerchantStatementReader implements ItemReader<MerchantStatementVO>
   public MerchantStatementReader(MerchantStatementService merchantStatementService)
   {
     this.merchantStatementService = merchantStatementService;
-    loadListMerchantStatement(DateUtil.getYesterday(), DateUtil.today());
+    loadListMerchantStatement(DateTimeUtils.getYesterday(), DateTimeUtils.today());
     this.nextTransactionIndex = 0;
     this.isRefreshMerchantStatementList = false;
   }
@@ -42,7 +42,7 @@ public class MerchantStatementReader implements ItemReader<MerchantStatementVO>
     {
       if (this.isRefreshMerchantStatementList)
       {
-        loadListMerchantStatement(DateUtil.getYesterday(), DateUtil.today());
+        loadListMerchantStatement(DateTimeUtils.getYesterday(), DateTimeUtils.today());
         if (listMerchantStatement.isEmpty())
         {
           this.isRefreshMerchantStatementList = true;

@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-public class DateUtil
+public class DateTimeUtils
 {
 
-  private DateUtil()
+  private DateTimeUtils()
   {
     super();
   }
