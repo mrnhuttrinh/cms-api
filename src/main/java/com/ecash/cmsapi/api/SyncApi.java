@@ -23,7 +23,7 @@ public class SyncApi extends BaseApi {
   SyncService syncService;
 
   @RequestMapping(value = "${api.url.scms.syncdata}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  @PreAuthorize(value = "hasPermission(null, 'SYNC')")
+//  @PreAuthorize(value = "hasPermission(null, 'SYNC')")
   public ResponseEntity<?> addCard(@RequestBody List<SyncVO> inputCards) {
     syncService.sync(inputCards);
     return ResponseEntity

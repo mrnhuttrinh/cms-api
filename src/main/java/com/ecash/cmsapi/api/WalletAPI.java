@@ -31,7 +31,7 @@ public class WalletAPI extends BaseApi {
   }
   
   @PostMapping(value = "/wallets", produces = "application/json; charset=UTF-8")
-  @PreAuthorize(value = "hasPermission(null, 'WALLET_DETAILS/CREATE')")
+  @PreAuthorize(value = "hasPermission(null, 'WALLET_DETAIL/CREATE')")
   public WalletVO createWallet(@RequestBody WalletVO data) {
     Wallet wallet = new Wallet();
     wallet.setCard(data.getCard());
@@ -40,7 +40,7 @@ public class WalletAPI extends BaseApi {
   }
   
   @DeleteMapping(value = "/wallets/{id}", produces = "application/json; charset=UTF-8")
-  @PreAuthorize(value = "hasPermission(null, 'WALLET_DETAILS/DISCONNECT')")
+  @PreAuthorize(value = "hasPermission(null, 'WALLET_DETAIL/DISCONNECT')")
   public WalletVO disconnectWallet(@PathVariable String id) {
     Wallet wallet = walletService.disconnectWallet(id);
     if (wallet == null) {

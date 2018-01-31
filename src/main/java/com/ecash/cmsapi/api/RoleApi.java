@@ -34,7 +34,7 @@ public class RoleApi extends BaseApi {
     return roleService.findAll(predicate, pageable);
   }
 
-  @PreAuthorize(value = "hasPermission(null, 'ROLE_DETAILS/ADD_PERMISSION')")
+  @PreAuthorize(value = "hasPermission(null, 'ROLE_DETAIL/ADD_PERMISSION')")
   @RequestMapping(value = "/roles/update-permission/{id}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> updateRolePermission(@PathVariable("id") String id,
       @RequestBody List<Permission> permissions) {
@@ -47,7 +47,7 @@ public class RoleApi extends BaseApi {
     return ResponseEntity.ok(role);
   }
 
-  @PreAuthorize(value = "hasPermission(null, 'ROLE_DETAILS/CREATE')")
+  @PreAuthorize(value = "hasPermission(null, 'ROLE_DETAIL/CREATE')")
   @RequestMapping(value = "/role", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> addNewRole(@RequestBody Map<String, Object> body) {
     try {

@@ -17,7 +17,7 @@ public class ReportApi extends BaseApi
   private ReportService reportService;
 
   @GetMapping(value = "${api.url.report.general}")
-  @PreAuthorize(value = "hasPermission(null, 'REPORT/VIEW')")
+//  @PreAuthorize(value = "hasPermission(null, 'REPORT/VIEW')")
   public ResponseEntity<?> getGeneralReport(
       @RequestParam(name = "fromDate", required = true, defaultValue = "") String fromDate,
       @RequestParam(name = "toDate", required = true, defaultValue = "") String toDate)
