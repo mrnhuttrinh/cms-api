@@ -34,6 +34,7 @@ public class AccountApi extends BaseApi {
     return accountService.findAll(predicate, pageable);
   }
   
+  @PreAuthorize(value = "hasPermission(null, 'ACCOUNT_DETAILS/UPDATE')")
   @RequestMapping(value = "${api.url.account.update}", method = RequestMethod.PUT, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> updateAccountStatus(@RequestBody AccountUpdateVO request) {
     Account account = new Account();

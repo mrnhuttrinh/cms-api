@@ -22,6 +22,7 @@ public class CardAPI extends BaseApi {
   @Autowired
   private CardService cardService;
 
+  @PreAuthorize(value = "hasPermission(null, 'CARD_DETAIL/UPDATE')")
   @RequestMapping(value = "${api.url.card.updateStatus}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<Card> updateCardStatus(@RequestBody UpdateCardStatusRequestVO request) {
     return ResponseEntity.ok(cardService.updateCardStatus(request));

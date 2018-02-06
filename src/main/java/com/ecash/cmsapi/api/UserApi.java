@@ -47,6 +47,7 @@ public class UserApi extends BaseApi
     return userService.findAll(predicate, pageable);
   }
 
+  @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/UPDATE')")
   @RequestMapping(value = "/users/change-password", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> changePassword(@RequestBody Map<String, String> body)
   {
@@ -77,6 +78,7 @@ public class UserApi extends BaseApi
     return ResponseEntity.ok(user); 
   }
 
+  @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/UPDATE')")
   @RequestMapping(value = "/users/update-information", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> updateUserInformation(@RequestBody User user)
   {
@@ -92,6 +94,7 @@ public class UserApi extends BaseApi
     return ResponseEntity.ok(user); 
   }
 
+  @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/RESET_PASSWORD')")
   @RequestMapping(value = "/users/reset-password", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body)
   {
@@ -119,6 +122,7 @@ public class UserApi extends BaseApi
     return ResponseEntity.ok(user); 
   }
 
+  @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/UPDATE')")
   @RequestMapping(value = "/users/update-status", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> updateStatus(@RequestBody Map<String, String> body)
   {
@@ -138,6 +142,7 @@ public class UserApi extends BaseApi
     return ResponseEntity.ok(user); 
   }
 
+  @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/UPDATE')")
   @RequestMapping(value = "/users/update-setting", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> updateSetting(@RequestBody Map<String, String> body)
   {
@@ -155,6 +160,7 @@ public class UserApi extends BaseApi
     return ResponseEntity.ok(user); 
   }
   
+  @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/CREATE')")
   @RequestMapping(value = "/user", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> addNewUser(@RequestBody Map<String, String> body)
   {

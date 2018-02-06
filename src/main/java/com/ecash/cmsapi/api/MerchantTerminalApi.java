@@ -18,7 +18,7 @@ public class MerchantTerminalApi extends BaseApi {
   private MerchantTerminalService merchantTerminalService;
   
   @GetMapping(value = "/merchantTerminals/search")
-  @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
+  @PreAuthorize(value = "hasPermission(null, 'MERCHANT_TERMINAL_LIST/VIEW')")
   public Iterable<MerchantTerminal> searchAll(@QuerydslPredicate(root = MerchantTerminal.class) Predicate predicate,
       Pageable pageable) {
     return merchantTerminalService.findAll(predicate, pageable);

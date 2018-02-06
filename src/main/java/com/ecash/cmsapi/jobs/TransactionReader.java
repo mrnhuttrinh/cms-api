@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.batch.item.ItemReader;
 
-import com.ecash.cmsapi.util.DateUtil;
+import com.ecash.cmsapi.util.DateTimeUtils;
 import com.ecash.ecashcore.service.TransactionService;
 import com.ecash.ecashcore.vo.TransactionVO;
 
@@ -24,7 +24,7 @@ public class TransactionReader implements ItemReader<TransactionVO>
   public TransactionReader(TransactionService transactionService)
   {
     this.transactionService = transactionService;
-    loadListTransaction(DateUtil.getYesterday(), DateUtil.today());
+    loadListTransaction(DateTimeUtils.getYesterday(), DateTimeUtils.today());
     this.nextTransactionIndex = 0;
     this.isRefreshTransactionList = false;
   }
@@ -42,7 +42,7 @@ public class TransactionReader implements ItemReader<TransactionVO>
     {
       if (this.isRefreshTransactionList)
       {
-        loadListTransaction(DateUtil.getYesterday(), DateUtil.today());
+        loadListTransaction(DateTimeUtils.getYesterday(), DateTimeUtils.today());
         nextTransactionIndex = 0;
         transaction = listTransaction.get(nextTransactionIndex);
         nextTransactionIndex++;

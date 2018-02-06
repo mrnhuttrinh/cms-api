@@ -17,7 +17,7 @@ public class PermissionApi extends BaseApi {
   @Autowired PermissionService permissionService;
   
   @GetMapping(value = "/permissions/search")
-  @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
+  @PreAuthorize(value = "hasPermission(null, 'PERMISSION_LIST/VIEW')")
   public Iterable<Permission> searchAll(@QuerydslPredicate(root = Permission.class) Predicate predicate,
       Pageable pageable) {
     return permissionService.findAll(predicate, pageable);

@@ -18,7 +18,7 @@ public class TransactionApi extends BaseApi {
   TransactionService transactionService;
   
   @GetMapping(value = "/transactions/search")
-  @PreAuthorize(value = "hasPermission(null, 'FULL_CONTROL')")
+  @PreAuthorize(value = "hasPermission(null, 'TRANSACTION_LIST/VIEW')")
   public Iterable<Transaction> searchAll(@QuerydslPredicate(root = Transaction.class) Predicate predicate,
       Pageable pageable) {
     return transactionService.findAll(predicate, pageable);
