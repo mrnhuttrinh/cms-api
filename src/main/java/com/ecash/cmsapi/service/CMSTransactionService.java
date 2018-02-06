@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ecash.cmsapi.util.httpclient.HttpClientUtils;
 import com.ecash.cmsapi.util.httpclient.ResponseData;
+import com.ecash.ecashcore.exception.EcashException;
 import com.ecash.ecashcore.util.JsonUtils;
 import com.ecash.ecashcore.vo.request.DepositRequestVO;
 
@@ -22,6 +23,14 @@ public class CMSTransactionService {
   public String deposit(DepositRequestVO request) {
     ResponseData responseData = HttpClientUtils.sendPostJsontoEcash(depositUrl, JsonUtils.objectToJsonString(request),
         null, authentication);
-    return responseData.getResponseBody();
+    if (responseData != null) {
+      if (responseData.getResponseBody() != null) {
+        return responseData.getResponseBody();
+      } else {
+        throw new EcashException(responseData.getResponseMessage());
+      }
+    } else {
+      throw new EcashException("Error when calling ecash.");
+    }
   }
 }
