@@ -86,6 +86,6 @@ public class HttpClientUtils {
 
     headers.put("Authorization", authentication);
 
-    return sendPost(url, body, headers);
+    return sendPostJson(url, body, headers);
   }
 }
