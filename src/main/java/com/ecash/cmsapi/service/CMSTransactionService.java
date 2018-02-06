@@ -16,8 +16,12 @@ public class CMSTransactionService {
   @Value("${ecash.url.deposit}")
   private String depositUrl;
 
+  @Value("${ecash.header.authentication}")
+  private String authentication;
+
   public String deposit(DepositRequestVO request) {
-    ResponseData responseData = HttpClientUtils.sendPostJson(depositUrl, JsonUtils.objectToJsonString(request), null);
+    ResponseData responseData = HttpClientUtils.sendPostJsontoEcash(depositUrl, JsonUtils.objectToJsonString(request),
+        null, authentication);
     return responseData.getResponseBody();
   }
 }

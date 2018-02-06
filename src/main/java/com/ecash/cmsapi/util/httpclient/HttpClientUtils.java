@@ -77,4 +77,15 @@ public class HttpClientUtils {
 
     return sendPost(url, body, headers);
   }
+
+  public static ResponseData sendPostJsontoEcash(String url, String body, Map<String, String> headers,
+      String authentication) {
+    if (headers == null) {
+      headers = new HashMap<>();
+    }
+
+    headers.put("Authorization", authentication);
+
+    return sendPost(url, body, headers);
+  }
 }
