@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ecash.cmsapi.exception.CmsException;
 import com.ecash.cmsapi.util.httpclient.HttpClientUtils;
 import com.ecash.cmsapi.util.httpclient.ResponseData;
-import com.ecash.ecashcore.exception.EcashException;
 import com.ecash.ecashcore.util.JsonUtils;
 import com.ecash.ecashcore.vo.request.DepositRequestVO;
 
@@ -20,17 +20,17 @@ public class CMSTransactionService {
   @Value("${ecash.header.authentication}")
   private String authentication;
 
-  public String deposit(DepositRequestVO request) {
+  public ResponseData deposit(DepositRequestVO request) {
     ResponseData responseData = HttpClientUtils.sendPostJsontoEcash(depositUrl, JsonUtils.objectToJsonString(request),
         null, authentication);
     if (responseData != null) {
       if (responseData.getResponseBody() != null) {
-        return responseData.getResponseBody();
+        return responseData;
       } else {
-        throw new EcashException(responseData.getResponseMessage());
+        throw new CmsException(responseData.getResponseMessage());
       }
     } else {
-      throw new EcashException("Error when calling ecash.");
+      throw new CmsException("Error when calling ecash.");
     }
   }
 }

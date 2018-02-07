@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.cmsapi.service.CMSTransactionService;
+import com.ecash.cmsapi.util.httpclient.ResponseData;
 import com.ecash.ecashcore.model.cms.Transaction;
 import com.ecash.ecashcore.service.TransactionService;
+import com.ecash.ecashcore.util.JsonUtils;
 import com.ecash.ecashcore.vo.request.DepositRequestVO;
 import com.querydsl.core.types.Predicate;
 
@@ -35,7 +37,10 @@ public class TransactionApi extends BaseApi {
   @PostMapping(value = "${api.url.deposit}", produces = "application/json; charset=UTF-8")
   public ResponseEntity<String> deposit(@RequestBody DepositRequestVO request) {
 
-    String transaction = cmsTransactionService.deposit(request);
-    return ResponseEntity.ok(transaction);
+    ResponseData response = cmsTransactionService.deposit(request);
+    if (response.getResponseCode() > 200) {
+      return ResponseEntity.status(response.getResponseCode()).body(JsonUtils.objectToJsonString(response));
+    }
+    return ResponseEntity.ok(response.getResponseBody());
   }
 }
