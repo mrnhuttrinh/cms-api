@@ -110,7 +110,7 @@
 		{
 			"name": "/api/charge",
 			"request": {
-				"url": "http://localhost:8081/api/charge",
+				"url": "http://localhost:8080/api/charge",
 				"method": "POST",
 				"header": [
 					{
@@ -126,7 +126,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"card\": {\n    \"number\": \"01020304050607\",\n    \"trackData\": \"track data\"\n  },\n  \"amount\": 100,\n  \"extendedInformation\": {\n    \"transactionDetails\": \"{'cocacola': 1,'aquafina': 2}\",\n    \"additionalTerminalInfo\": {\n      \"terminalId\": \"288816b1-369d-4d3f-8396-111111111111\",\n      \"terminalAddress\": {\n        \"addressType\": 1,\n        \"details\": {\n          \"city\": \"HCM\",\n          \"district\": \"Tan Binh\"\n        }\n      }\n    }\n  },\n  \"targetAccount\": {\n\t\"type\": \"DEFAULT\"\n  }\n}"
+					"raw": "{\"card\":{\"trackData\":null,\"number\":\"043262EA094F80\"},\"amount\":50000.0,\"extendedInformation\":{\"additionalTerminalInfo\":{\"terminalId\":\"288816b1-369d-4d3f-8396-111111111111\",\"terminalAddress\":null},\"transactionDetails\":\"{\\\"invoiceType\\\":\\\"canteen_invoice\\\",\\\"details\\\":{\\\"deskId\\\":0,\\\"deskNumber\\\":\\\"\\\",\\\"receiptDate\\\":\\\"2018-01-23T17:45:47.3324819+07:00\\\",\\\"customerCode\\\":\\\"\\\",\\\"customerPhone\\\":\\\"\\\",\\\"employeeCode\\\":\\\"1\\\",\\\"total\\\":50000.00,\\\"discount\\\":0.00,\\\"totalPrice\\\":50000.00,\\\"vat\\\":5000.00,\\\"payment\\\":\\\"KR\\\",\\\"details\\\":[{\\\"productId\\\":1,\\\"productName\\\":\\\"Cơm gà\\\",\\\"quantity\\\":2,\\\"unitPrice\\\":25000.00,\\\"status\\\":1,\\\"printerPosition\\\":1}]}}\",\"targetAccount\":null},\"target\":null}"
 				},
 				"description": ""
 			},
@@ -135,7 +135,7 @@
 		{
 			"name": "/api/deposit",
 			"request": {
-				"url": "http://localhost:8081/api/deposit",
+				"url": "http://localhost:8080/api/deposit",
 				"method": "POST",
 				"header": [
 					{
@@ -157,7 +157,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"card\": {\n    \"number\": \"01020304050607\",\n    \"trackData\": \"track data\"\n  },\n  \"amount\": 100,\n  \"extendedInformation\": {\n    \"transactionDetails\": \"{'cocacola': 1,'aquafina': 2}\",\n    \"additionalTerminalInfo\": {\n      \"terminalId\": \"288816b1-369d-4d3f-8396-111111111111\",\n      \"terminalAddress\": {\n        \"addressType\": 1,\n        \"details\": {\n          \"city\": \"HCM\",\n          \"district\": \"Tan Binh\"\n        }\n      }\n    }\n  },\n  \"targetAccount\": {\n\t\"type\": \"DEFAULT\"\n  }\n}"
+					"raw": "{\n  \"card\": {\n    \"number\": \"CARD-19882211\",\n    \"trackData\": \"track data\"\n  },\n  \"amount\": 100,\n  \"extendedInformation\": {\n    \"transactionDetails\": \"{'cocacola': 1,'aquafina': 2}\",\n    \"additionalTerminalInfo\": {\n      \"terminalId\": \"288816b1-369d-4d3f-8396-111111111111\",\n      \"terminalAddress\": {\n        \"addressType\": 1,\n        \"details\": {\n          \"city\": \"HCM\",\n          \"district\": \"Tan Binh\"\n        }\n      }\n    }\n  },\n  \"targetAccount\": {\n\t\"type\": \"DEFAULT\"\n  }\n}"
 				},
 				"description": ""
 			},
@@ -166,7 +166,7 @@
 		{
 			"name": "/api/refund",
 			"request": {
-				"url": "http://localhost:8081/api/refund",
+				"url": "http://localhost:8080/api/refund",
 				"method": "POST",
 				"header": [
 					{
@@ -182,7 +182,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"transactionId\": \"4028818a5ff45866015ff459215a0003\"\n}"
+					"raw": "{\n\t\"transactionId\": \"402881856016f6bc016016f8395a0003\"\n}"
 				},
 				"description": ""
 			},
@@ -296,6 +296,86 @@
 				"method": "GET",
 				"header": [],
 				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/card/updateStatus",
+			"request": {
+				"url": "http://localhost:8081/api/card/updateStatus",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"card\": {\n    \"number\": \"CARD-19882211\"\n  },\n  \"status\": \"VIOLATED\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/scms/syncData",
+			"request": {
+				"url": "localhost:8081/api/scms/syncData",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"syncCode\": \"syncCode\",\n    \"syncTime\": \"2017-11-05T11:51:24.205Z\",\n    \"finishFlag\": true,\n    \"personalizationCode\": \"personalizationCode\",\n    \"personalizationDate\": \"2017-11-05T11:51:24.205Z\",\n    \"cardCode\": \"cardCode\",\n    \"effectiveDate\": \"2017-11-05T11:51:24.205Z\",\n    \"expiryDate\": \"2017-11-05T11:51:24.205Z\",\n    \"status\": \"status\",\n    \"organizationCode\": \"organizationCode\",\n    \"organizationShortName\": \"organizationShortName\",\n    \"memberCode\": \"memberCode\",\n    \"memberLastName\": \"memberLastName\",\n    \"memberFirstName\": \"memberFirstName\",\n    \"gender\": 1,\n    \"birthdate\": \"2017-11-05T11:51:24.205Z\",\n    \"countryCode\": \"countryCode\",\n    \"identityCardNumber\": \"identityCardNumber\",\n    \"identityCardIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n    \"identityCardIssuingAuthority\": \"identityCardIssuingAuthority\",\n    \"passportNumber\": \"passportNumber\",\n    \"passportIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n    \"passportExpiryDate\": \"2017-11-05T11:51:24.205Z\",\n    \"passportIssuingAuthority\": \"passportIssuingAuthority\",\n    \"temporaryAddress\": \"temporaryAddress\",\n    \"permanentAddress\": \"permanentAddress\",\n    \"email\": \"test@ecash.com\",\n    \"phoneNumber1\": \"12345678\",\n    \"phoneNumber2\": \"12345678\",\n    \"occupation\": \"occupation\",\n    \"title\": \"title\",\n    \"position\": \"position\"\n  }\n]"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/scms/syncData - update",
+			"request": {
+				"url": "localhost:8081/api/scms/syncData",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"syncCode\": \"syncCode3\",\n    \"syncTime\": \"2017-11-05T11:51:24.205Z\",\n    \"finishFlag\": true,\n    \"personalizationCode\": \"personalizationCode\",\n    \"personalizationDate\": \"2017-11-05T11:51:24.205Z\",\n    \"cardCode\": \"cardCode1\",\n    \"effectiveDate\": \"2017-11-05T11:51:24.205Z\",\n    \"expiryDate\": \"2017-11-05T11:51:24.205Z\",\n    \"status\": \"status\",\n    \"organizationCode\": \"organizationCode\",\n    \"organizationShortName\": \"organizationShortName\",\n    \"memberCode\": \"memberCode1\",\n    \"memberLastName\": \"memberLastName\",\n    \"memberFirstName\": \"memberFirstName1\",\n    \"gender\": 1,\n    \"birthdate\": \"2017-11-05T11:51:24.205Z\",\n    \"countryCode\": \"countryCode1\",\n    \"identityCardNumber\": \"identityCardNumber\",\n    \"identityCardIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n    \"identityCardIssuingAuthority\": \"identityCardIssuingAuthority1\",\n    \"passportNumber\": \"passportNumber\",\n    \"passportIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n    \"passportExpiryDate\": \"2017-11-05T11:51:24.205Z\",\n    \"passportIssuingAuthority\": \"passportIssuingAuthority\",\n    \"temporaryAddress\": \"temporaryAddress\",\n    \"permanentAddress\": \"permanentAddress\",\n    \"email\": \"test@ecash.com\",\n    \"phoneNumber1\": \"12345678\",\n    \"phoneNumber2\": \"12345678\",\n    \"occupation\": \"occupation\",\n    \"title\": \"title\",\n    \"position\": \"position\"\n  }\n]"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/sync/v1",
+			"request": {
+				"url": "localhost:8081/api/sync/v1",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"syncCode\": \"syncCode1\",\n  \"syncTime\": \"2017-11-05T11:51:24.205Z\",\n  \"finishFlag\": true,\n  \"personalizations\": [\n    {\n      \"personalizationCode\": \"personalizationCode\",\n      \"personalizationDate\": \"2017-11-05T11:51:24.205Z\",\n      \"cardCode\": \"cardCode1\",\n      \"effectiveDate\": \"2017-11-05T11:51:24.205Z\",\n      \"expiryDate\": \"2017-11-05T11:51:24.205Z\",\n      \"status\": \"status\",\n      \"organizationCode\": \"organizationCode\",\n      \"organizationShortName\": \"organizationShortName\",\n      \"memberCode\": \"memberCode1\",\n      \"memberLastName\": \"memberLastName\",\n      \"memberFirstName\": \"memberFirstName1\",\n      \"gender\": 1,\n      \"birthdate\": \"2017-11-05T11:51:24.205Z\",\n      \"countryCode\": \"countryCode1\",\n      \"identityCardNumber\": \"identityCardNumber\",\n      \"identityCardIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n      \"identityCardIssuingAuthority\": \"identityCardIssuingAuthority1\",\n      \"passportNumber\": \"passportNumber\",\n      \"passportIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n      \"passportExpiryDate\": \"2017-11-05T11:51:24.205Z\",\n      \"passportIssuingAuthority\": \"passportIssuingAuthority\",\n      \"temporaryAddress\": \"temporaryAddress\",\n      \"permanentAddress\": \"permanentAddress\",\n      \"email\": \"test@ecash.com\",\n      \"phoneNumber1\": \"12345678\",\n      \"phoneNumber2\": \"12345678\",\n      \"occupation\": \"occupation\",\n      \"title\": \"title\",\n      \"position\": \"position\"\n    }\n  ]\n}"
+				},
 				"description": ""
 			},
 			"response": []
