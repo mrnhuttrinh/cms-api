@@ -30,7 +30,7 @@ public class SyncApi extends BaseApi {
         .ok(new ResponseBodyVO(HttpStatus.OK.value(), ResponseConstant.SUCCESS, "Save successfully!", null));
   }
 
-  @RequestMapping(value = "${api.url.scms.syncdata}/v1", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+  @RequestMapping(value = "${api.url.scms.sync}/v1", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   // @PreAuthorize(value = "hasPermission(null, 'SYNC')")
   public ResponseEntity<?> syncV1(@RequestBody List<SyncVO> inputCards) {
     syncService.sync(inputCards);
