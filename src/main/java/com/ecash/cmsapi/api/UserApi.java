@@ -1,9 +1,12 @@
 package com.ecash.cmsapi.api;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.ecash.cmsapi.vo.ResponseBodyVO;
+import com.ecash.ecashcore.enums.StatusEnum;
+import com.ecash.ecashcore.model.cms.Role;
+import com.ecash.ecashcore.model.cms.User;
+import com.ecash.ecashcore.service.RoleService;
+import com.ecash.ecashcore.service.UserService;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -14,19 +17,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecash.cmsapi.vo.ResponseBodyVO;
-import com.ecash.ecashcore.enums.StatusEnum;
-import com.ecash.ecashcore.model.cms.Role;
-import com.ecash.ecashcore.model.cms.User;
-import com.ecash.ecashcore.service.RoleService;
-import com.ecash.ecashcore.service.UserService;
-import com.querydsl.core.types.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserApi extends BaseApi
@@ -170,6 +171,7 @@ public class UserApi extends BaseApi
           String email = body.get("email");
           String username = body.get("username");
           String role = body.get("role");
+          String password = body.get("password");
           String status = body.get("status");
 
           User newUser = new User();
@@ -177,6 +179,9 @@ public class UserApi extends BaseApi
               newUser.setEnabled(true);
           }
           newUser.setEmail(email);
+          PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+          newUser.setPassword(password);
+          newUser.encodePassword(passwordEncoder);
           newUser.setUsername(username);
           newUser.setFirstName(firstName);
           newUser.setLastName(lastName);
