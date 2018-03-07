@@ -22,6 +22,7 @@ import com.ecash.cmsapi.vo.ResponseBodyVO;
 import com.ecash.ecashcore.exception.DataNotFoundException;
 import com.ecash.ecashcore.exception.InvalidInputException;
 import com.ecash.ecashcore.exception.TransactionException;
+import com.ecash.ecashcore.util.ExceptionUtils;
 
 @RestController
 @RequestMapping(value = "${api.url.rootPath}")
@@ -71,7 +72,7 @@ public class BaseApi {
   public ResponseEntity<?> internalServerErrorExceptionHandler(Exception ex) {
     LOGGER.error(ex.getMessage(), ex);
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-        new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseConstant.ERROR, ex.getMessage(), null));
+        new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseConstant.ERROR, ExceptionUtils.stackTraceToString(ex), null));
   }
 
   @ExceptionHandler(NotAuthenticatedException.class)
