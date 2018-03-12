@@ -22,6 +22,7 @@ import com.ecash.cmsapi.vo.ResponseBodyVO;
 import com.ecash.ecashcore.exception.DataNotFoundException;
 import com.ecash.ecashcore.exception.InvalidInputException;
 import com.ecash.ecashcore.exception.TransactionException;
+import com.ecash.ecashcore.exception.ValidationException;
 import com.ecash.ecashcore.util.ExceptionUtils;
 
 @RestController
@@ -58,6 +59,11 @@ public class BaseApi {
 
   @ExceptionHandler(InvalidInputException.class)
   public ResponseEntity<?> invalidInputExceptionHandler(Exception ex) {
+    return badRequestExceptionHandler(ex);
+  }
+  
+  @ExceptionHandler(ValidationException.class)
+  public ResponseEntity<?> validationExceptionHandler(Exception ex) {
     return badRequestExceptionHandler(ex);
   }
 
