@@ -72,7 +72,7 @@ public class BaseApi {
   public ResponseEntity<?> internalServerErrorExceptionHandler(Exception ex) {
     LOGGER.error(ex.getMessage(), ex);
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-        new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseConstant.ERROR, ExceptionUtils.stackTraceToString(ex), null));
+        new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseConstant.ERROR, ex.getMessage(), ExceptionUtils.stackTraceToString(ex)));
   }
 
   @ExceptionHandler(NotAuthenticatedException.class)
