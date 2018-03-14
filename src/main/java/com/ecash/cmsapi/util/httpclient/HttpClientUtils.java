@@ -5,13 +5,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.SSLContext;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +27,21 @@ public class HttpClientUtils {
   protected static final Logger LOGGER = LoggerFactory.getLogger(HttpClientUtils.class);
 
   private static final String APPLICATION_JSON = "application/json";
+  private static final String HTTPS_STR = "https";
 
   private static ResponseData sendRequest(HttpRequestBase request) {
     ResponseData responseData = null;
     try {
-      HttpClient httpclient = HttpClientBuilder.create().build();
+      CloseableHttpClient httpclient;
+      if (request.getURI().toString().toLowerCase().startsWith(HTTPS_STR)) {
+        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (certificate, authType) -> true)
+            .build();
+
+        httpclient = HttpClients.custom().setSSLContext(sslContext).setSSLHostnameVerifier(new NoopHostnameVerifier())
+            .build();
+      } else {
+        httpclient = HttpClientBuilder.create().build();
+      }
 
       HttpResponse response = httpclient.execute(request);
 
