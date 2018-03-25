@@ -6,6 +6,7 @@ import com.ecash.ecashcore.model.cms.Role;
 import com.ecash.ecashcore.model.cms.User;
 import com.ecash.ecashcore.service.RoleService;
 import com.ecash.ecashcore.service.UserService;
+import com.ecash.ecashcore.vo.UserVO;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -81,17 +82,11 @@ public class UserApi extends BaseApi
 
   @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/UPDATE')")
   @RequestMapping(value = "/users/update-information", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> updateUserInformation(@RequestBody User user)
+  public ResponseEntity<?> updateUserInformation(@RequestBody UserVO data)
   {
-    if (user == null)
-    {
-      ResponseBodyVO error = new ResponseBodyVO(HttpStatus.NOT_FOUND.value(), "User not found.",
-          null, null);
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
     String currentUsername = this.getCurrentUser();
     User currentUser = userService.getByUsername(currentUsername);
-    user = userService.updateInformation(user, currentUser);
+    User user = userService.updateInformation(data, currentUser);
     return ResponseEntity.ok(user); 
   }
 
