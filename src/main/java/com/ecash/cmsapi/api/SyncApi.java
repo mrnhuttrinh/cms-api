@@ -22,13 +22,13 @@ public class SyncApi extends BaseApi {
   @Autowired
   SyncService syncService;
 
-  @RequestMapping(value = "${api.url.scms.syncdata}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  // @PreAuthorize(value = "hasPermission(null, 'SYNC')")
-  public ResponseEntity<?> sync(@RequestBody List<SyncVO> syncData) {
-    syncService.sync(syncData);
-    return ResponseEntity
-        .ok(new ResponseBodyVO(HttpStatus.OK.value(), ResponseConstant.SUCCESS, "Save successfully!", null));
-  }
+//  @RequestMapping(value = "${api.url.scms.syncdata}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+//  // @PreAuthorize(value = "hasPermission(null, 'SYNC')")
+//  public ResponseEntity<?> sync(@RequestBody List<SyncVO> syncData) {
+//    syncService.sync(syncData);
+//    return ResponseEntity
+//        .ok(new ResponseBodyVO(HttpStatus.OK.value(), ResponseConstant.SUCCESS, "Save successfully!", null));
+//  }
 
   @RequestMapping(value = "${api.url.scms.sync}/v1", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   // @PreAuthorize(value = "hasPermission(null, 'SYNC')")
