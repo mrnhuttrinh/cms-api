@@ -1,7 +1,5 @@
 package com.ecash.cmsapi.api;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,6 @@ import com.ecash.cmsapi.api.constant.ResponseConstant;
 import com.ecash.cmsapi.vo.ResponseBodyVO;
 import com.ecash.ecashcore.service.SyncService;
 import com.ecash.ecashcore.vo.SyncV1VO;
-import com.ecash.ecashcore.vo.SyncVO;
 
 @RestController
 public class SyncApi extends BaseApi {
