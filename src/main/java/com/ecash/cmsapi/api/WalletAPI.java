@@ -22,15 +22,8 @@ public class WalletAPI extends BaseApi {
   
   @Autowired
   WalletService walletService;
-  @GetMapping(value = "/wallets/search")
-  @PreAuthorize(value = "hasPermission(null, 'WALLET_LIST/VIEW')")
-  public Iterable<Wallet> searchAll(
-      @QuerydslPredicate(root = Wallet.class) Predicate predicate,
-      Pageable pageable) {
-    return walletService.findAll(predicate, pageable);
-  }
   
-  @PostMapping(value = "/wallets", produces = "application/json; charset=UTF-8")
+  @PostMapping(value = "/createwallet", produces = "application/json; charset=UTF-8")
   @PreAuthorize(value = "hasPermission(null, 'WALLET_DETAIL/CREATE')")
   public WalletVO createWallet(@RequestBody WalletVO data) {
     Wallet wallet = new Wallet();
@@ -39,7 +32,7 @@ public class WalletAPI extends BaseApi {
     return new WalletVO(wallet);
   }
   
-  @DeleteMapping(value = "/wallets/{id}", produces = "application/json; charset=UTF-8")
+  @DeleteMapping(value = "/deletewallet/{id}", produces = "application/json; charset=UTF-8")
   @PreAuthorize(value = "hasPermission(null, 'WALLET_DETAIL/DISCONNECT')")
   public WalletVO disconnectWallet(@PathVariable String id) {
     Wallet wallet = walletService.disconnectWallet(id);
