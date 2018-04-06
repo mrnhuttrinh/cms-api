@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 @Configuration
 @EnableWebSecurity
@@ -26,10 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserDetailsService userDetailsService;
 
-  @Autowired
-  public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-    authenticationManagerBuilder.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
-  }
+//  @Autowired
+//  public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//    authenticationManagerBuilder.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
+//  }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -43,10 +42,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
+    // httpSecurity.csrf().disable().authorizeRequests().antMatchers("/").permitAll()
+    // .antMatchers(HttpMethod.POST,
+    // "/api/authenticate").permitAll().anyRequest().authenticated().and()
+    // .addFilterBefore(authenticationTokenFilterBean(),
+    // UsernamePasswordAuthenticationFilter.class).requestCache()
+    // .requestCache(getHttpSessionRequestCache());
+
     httpSecurity.csrf().disable().authorizeRequests().antMatchers("/").permitAll()
         .antMatchers(HttpMethod.POST, "/api/authenticate").permitAll().anyRequest().authenticated().and()
-        .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class).requestCache()
-        .requestCache(getHttpSessionRequestCache());
+        .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
   }
 
   @Override
@@ -63,9 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return authenticationProvider;
   }
 
-  public HttpSessionRequestCache getHttpSessionRequestCache() {
-    HttpSessionRequestCache httpSessionRequestCache = new HttpSessionRequestCache();
-    httpSessionRequestCache.setCreateSessionAllowed(false);
-    return httpSessionRequestCache;
-  }
+  // public HttpSessionRequestCache getHttpSessionRequestCache() {
+  // HttpSessionRequestCache httpSessionRequestCache = new
+  // HttpSessionRequestCache();
+  // httpSessionRequestCache.setCreateSessionAllowed(false);
+  // return httpSessionRequestCache;
+  // }
 }

@@ -66,7 +66,7 @@ public class AuthenticateApi extends BaseApi {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
       }
     } catch (Exception e) {
-      // TODO
+      throw e;
     }
 
     // Perform the security
@@ -81,6 +81,7 @@ public class AuthenticateApi extends BaseApi {
     User user = userService.getByUsername(userDetails.getUsername());
     user.setLastLogin(new Date());
     userService.save(user);
+    
     if (language != null && !language.equals("")) {
       userService.updateSetting(user, "language", language);
     }
@@ -124,6 +125,7 @@ public class AuthenticateApi extends BaseApi {
       User user = userService.getByUsername(username);
       httpSession.removeAttribute(tokenHeader);
       jwtTokenUtil.deleteTokenToRedisCache(user.getId());
+      SecurityContextHolder.getContext().setAuthentication(null);
       ResponseBodyVO data = new ResponseBodyVO(HttpStatus.OK.value(), "Sign out successfully.", null, null);
       return ResponseEntity.ok(data);
     } else {
