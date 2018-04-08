@@ -123,10 +123,10 @@ public class JwtTokenUtil implements Serializable {
     if (user == null) {
       user = userService.getByEmail(username);
     }
-    if (user == null) {
-      return null;
+    if (user != null) {
+      return redisService.get(user.getId());
     }
-    return redisService.get(user.getId());
+    return null;
   }
   
   public void setTokenToRedisCache(String key, String value) {

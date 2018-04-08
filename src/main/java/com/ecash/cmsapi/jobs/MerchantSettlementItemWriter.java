@@ -30,7 +30,9 @@ public class MerchantSettlementItemWriter implements ItemWriter<TransactionVO>
     for (final TransactionVO transaction : items)
     {
       transactionResponseVO = transactionService.merchantSettlement(transaction);
-      LOGGER.info("Settlement MerchantStatement: {}", transactionResponseVO.toString());
+      if(transactionResponseVO != null) {
+        LOGGER.info("Settlement MerchantStatement: {}", transactionResponseVO.toString());
+      }
     }
   }
 

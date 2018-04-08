@@ -19,6 +19,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.ecash.ecashcore.model.cms.User;
+import com.ecash.ecashcore.service.UserService;
+
 import io.jsonwebtoken.ExpiredJwtException;
 
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
@@ -30,6 +33,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
   @Autowired
   private JwtTokenUtil jwtTokenUtil;
+  
+  @Autowired
+  private UserService userService;
 
   @Value("${jwt.header}")
   private String tokenHeader;
@@ -42,14 +48,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     HttpSession session = request.getSession(false);
-    if (session != null) {
-      logger.debug("Session id: " + session.getId());
-    }
-
     String requestHeader = null;
 
     if (session != null) {
       logger.debug("Getting auth from session");
+      logger.debug("Session id: " + session.getId());
       requestHeader = (String) session.getAttribute(this.tokenHeader);
     }
 
@@ -93,6 +96,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
       if (cacheToken == null || cacheToken == "") {
         SecurityContextHolder.getContext().setAuthentication(null);
         session.removeAttribute(tokenHeader);
+      } else {
+        String refreshedToken = jwtTokenUtil.refreshToken(authToken);
+        session.setAttribute(tokenHeader, tokenPrefix + " " + refreshedToken);
+        User user = userService.getByUsername(username);
+        jwtTokenUtil.setTokenToRedisCache(user.getId(), refreshedToken);
       }
     }
 
