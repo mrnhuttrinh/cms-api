@@ -1,5 +1,7 @@
 package com.ecash.cmsapi.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -33,5 +35,10 @@ public class CardAPI extends BaseApi {
   public Iterable<Card> searchAll(@QuerydslPredicate(root = Card.class) Predicate predicate,
       Pageable pageable) {
     return cardService.findAll(predicate, pageable);
+  }
+  
+  @GetMapping(value = "/cards/exampleQueryDsl")
+  public List<Card> exampleQueryDsl() {
+    return cardService.exampleQueryDsl();
   }
 }
