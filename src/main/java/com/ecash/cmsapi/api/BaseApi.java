@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -103,10 +104,16 @@ public class BaseApi {
   }
   
   protected String getCurrentUser() {
-    String requestHeader = (String) httpSession.getAttribute(this.tokenHeader);
-    String authToken = requestHeader.substring(7);
+    try {
+      String requestHeader = (String) httpSession.getAttribute(this.tokenHeader);
+      String authToken = requestHeader.substring(7);
+      
+      String username = jwtTokenUtil.getUsernameFromToken(authToken);
+      return username;
+    } catch (Exception ex) {
+      AuthenticationException error = new AuthenticationCredentialsNotFoundException(ex.getMessage());
+      throw error;
+    }
     
-    String username = jwtTokenUtil.getUsernameFromToken(authToken);
-    return username;
   }
 }
