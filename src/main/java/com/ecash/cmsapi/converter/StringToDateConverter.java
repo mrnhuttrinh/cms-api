@@ -18,7 +18,7 @@ public class StringToDateConverter implements Converter<String, Date> {
     } catch (NumberFormatException e) {
       date = DateTimeUtils.parseDate(value, DateTimeUtils.REPORT_PARAM_FORMAT, null).toDate();
       if (date == null) {
-        date = DateTimeUtils.parseDate(value).toDate();
+        date = DateTimeUtils.parseDate(value, null, null).toDate();
       }
     }
     return date;
