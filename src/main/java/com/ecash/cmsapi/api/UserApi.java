@@ -2,6 +2,7 @@ package com.ecash.cmsapi.api;
 
 import com.ecash.cmsapi.vo.ResponseBodyVO;
 import com.ecash.ecashcore.enums.StatusEnum;
+import com.ecash.ecashcore.exception.ValidationException;
 import com.ecash.ecashcore.model.cms.Role;
 import com.ecash.ecashcore.model.cms.User;
 import com.ecash.ecashcore.service.RoleService;
@@ -86,8 +87,17 @@ public class UserApi extends BaseApi
   {
     String currentUsername = this.getCurrentUser();
     User currentUser = userService.getByUsername(currentUsername);
-    User user = userService.updateInformation(data, currentUser);
-    return ResponseEntity.ok(user); 
+    // verify email
+    User userEmail = userService.getByEmail(data.getEmail());
+    User user = userService.getById(data.getId());
+    if (user == null) {
+      throw new ValidationException("User is not exist.");
+    }
+    if (userEmail != null && !userEmail.getId().equals(user.getId())) {
+      throw new ValidationException("Duplicate Email");
+    }
+    User result = userService.updateInformation(user, currentUser, data);
+    return ResponseEntity.ok(result); 
   }
 
   @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/RESET_PASSWORD')")
