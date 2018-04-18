@@ -66,7 +66,8 @@ public class AuthenticateApi extends BaseApi {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
       }
     } catch (Exception e) {
-      throw e;
+      // throw e;
+      // TODO: nothing at here
     }
 
     // Perform the security

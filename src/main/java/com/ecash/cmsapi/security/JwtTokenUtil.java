@@ -8,6 +8,8 @@ import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -48,8 +50,13 @@ public class JwtTokenUtil implements Serializable {
   @Autowired
   public UserService userService;
 
-  public String getUsernameFromToken(String token) {
+  public String getUsernameFromToken(String token) throws AuthenticationException {
+    // try {
     return getClaimFromToken(token, Claims::getSubject);
+    // } catch (Exception ex) {
+    //   AuthenticationException error = new AuthenticationCredentialsNotFoundException(ex.getMessage());
+    //   throw error;
+    // }
   }
 
   public Date getIssuedAtDateFromToken(String token) {
