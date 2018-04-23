@@ -108,107 +108,6 @@
 			"response": []
 		},
 		{
-			"name": "/api/charge",
-			"request": {
-				"url": "http://localhost:8080/api/charge",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"card\":{\"trackData\":null,\"number\":\"043262EA094F80\"},\"amount\":50000.0,\"extendedInformation\":{\"additionalTerminalInfo\":{\"terminalId\":\"288816b1-369d-4d3f-8396-111111111111\",\"terminalAddress\":null},\"transactionDetails\":\"{\\\"invoiceType\\\":\\\"canteen_invoice\\\",\\\"details\\\":{\\\"deskId\\\":0,\\\"deskNumber\\\":\\\"\\\",\\\"receiptDate\\\":\\\"2018-01-23T17:45:47.3324819+07:00\\\",\\\"customerCode\\\":\\\"\\\",\\\"customerPhone\\\":\\\"\\\",\\\"employeeCode\\\":\\\"1\\\",\\\"total\\\":50000.00,\\\"discount\\\":0.00,\\\"totalPrice\\\":50000.00,\\\"vat\\\":5000.00,\\\"payment\\\":\\\"KR\\\",\\\"details\\\":[{\\\"productId\\\":1,\\\"productName\\\":\\\"Cơm gà\\\",\\\"quantity\\\":2,\\\"unitPrice\\\":25000.00,\\\"status\\\":1,\\\"printerPosition\\\":1}]}}\",\"targetAccount\":null},\"target\":null}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "/api/deposit",
-			"request": {
-				"url": "http://localhost:8080/api/deposit",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "",
-						"description": "",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"card\": {\n    \"number\": \"CARD-19882211\",\n    \"trackData\": \"track data\"\n  },\n  \"amount\": 100,\n  \"extendedInformation\": {\n    \"transactionDetails\": \"{'cocacola': 1,'aquafina': 2}\",\n    \"additionalTerminalInfo\": {\n      \"terminalId\": \"288816b1-369d-4d3f-8396-111111111111\",\n      \"terminalAddress\": {\n        \"addressType\": 1,\n        \"details\": {\n          \"city\": \"HCM\",\n          \"district\": \"Tan Binh\"\n        }\n      }\n    }\n  },\n  \"targetAccount\": {\n\t\"type\": \"DEFAULT\"\n  }\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "/api/refund",
-			"request": {
-				"url": "http://localhost:8080/api/refund",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"transactionId\": \"402881856016f6bc016016f8395a0003\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "/api/authenticate",
-			"request": {
-				"url": "http://localhost:8081/api/authenticate",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
 			"name": "/cards - Create",
 			"request": {
 				"url": "http://localhost:8081/api/cards",
@@ -321,9 +220,9 @@
 			"response": []
 		},
 		{
-			"name": "/api/scms/syncData",
+			"name": "/api/authenticate",
 			"request": {
-				"url": "localhost:8081/api/scms/syncData",
+				"url": "http://localhost:8081/api/authenticate",
 				"method": "POST",
 				"header": [
 					{
@@ -334,27 +233,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n  {\n    \"syncCode\": \"syncCode\",\n    \"syncTime\": \"2017-11-05T11:51:24.205Z\",\n    \"finishFlag\": true,\n    \"personalizationCode\": \"personalizationCode\",\n    \"personalizationDate\": \"2017-11-05T11:51:24.205Z\",\n    \"cardCode\": \"cardCode\",\n    \"effectiveDate\": \"2017-11-05T11:51:24.205Z\",\n    \"expiryDate\": \"2017-11-05T11:51:24.205Z\",\n    \"status\": \"status\",\n    \"organizationCode\": \"organizationCode\",\n    \"organizationShortName\": \"organizationShortName\",\n    \"memberCode\": \"memberCode\",\n    \"memberLastName\": \"memberLastName\",\n    \"memberFirstName\": \"memberFirstName\",\n    \"gender\": 1,\n    \"birthdate\": \"2017-11-05T11:51:24.205Z\",\n    \"countryCode\": \"countryCode\",\n    \"identityCardNumber\": \"identityCardNumber\",\n    \"identityCardIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n    \"identityCardIssuingAuthority\": \"identityCardIssuingAuthority\",\n    \"passportNumber\": \"passportNumber\",\n    \"passportIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n    \"passportExpiryDate\": \"2017-11-05T11:51:24.205Z\",\n    \"passportIssuingAuthority\": \"passportIssuingAuthority\",\n    \"temporaryAddress\": \"temporaryAddress\",\n    \"permanentAddress\": \"permanentAddress\",\n    \"email\": \"test@ecash.com\",\n    \"phoneNumber1\": \"12345678\",\n    \"phoneNumber2\": \"12345678\",\n    \"occupation\": \"occupation\",\n    \"title\": \"title\",\n    \"position\": \"position\"\n  }\n]"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "/api/scms/syncData - update",
-			"request": {
-				"url": "localhost:8081/api/scms/syncData",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n  {\n    \"syncCode\": \"syncCode3\",\n    \"syncTime\": \"2017-11-05T11:51:24.205Z\",\n    \"finishFlag\": true,\n    \"personalizationCode\": \"personalizationCode\",\n    \"personalizationDate\": \"2017-11-05T11:51:24.205Z\",\n    \"cardCode\": \"cardCode1\",\n    \"effectiveDate\": \"2017-11-05T11:51:24.205Z\",\n    \"expiryDate\": \"2017-11-05T11:51:24.205Z\",\n    \"status\": \"status\",\n    \"organizationCode\": \"organizationCode\",\n    \"organizationShortName\": \"organizationShortName\",\n    \"memberCode\": \"memberCode1\",\n    \"memberLastName\": \"memberLastName\",\n    \"memberFirstName\": \"memberFirstName1\",\n    \"gender\": 1,\n    \"birthdate\": \"2017-11-05T11:51:24.205Z\",\n    \"countryCode\": \"countryCode1\",\n    \"identityCardNumber\": \"identityCardNumber\",\n    \"identityCardIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n    \"identityCardIssuingAuthority\": \"identityCardIssuingAuthority1\",\n    \"passportNumber\": \"passportNumber\",\n    \"passportIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n    \"passportExpiryDate\": \"2017-11-05T11:51:24.205Z\",\n    \"passportIssuingAuthority\": \"passportIssuingAuthority\",\n    \"temporaryAddress\": \"temporaryAddress\",\n    \"permanentAddress\": \"permanentAddress\",\n    \"email\": \"test@ecash.com\",\n    \"phoneNumber1\": \"12345678\",\n    \"phoneNumber2\": \"12345678\",\n    \"occupation\": \"occupation\",\n    \"title\": \"title\",\n    \"position\": \"position\"\n  }\n]"
+					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
 				},
 				"description": ""
 			},
@@ -374,7 +253,178 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"syncCode\": \"syncCode1\",\n  \"syncTime\": \"2017-11-05T11:51:24.205Z\",\n  \"finishFlag\": true,\n  \"personalizations\": [\n    {\n      \"personalizationCode\": \"personalizationCode\",\n      \"personalizationDate\": \"2017-11-05T11:51:24.205Z\",\n      \"cardCode\": \"cardCode1\",\n      \"effectiveDate\": \"2017-11-05T11:51:24.205Z\",\n      \"expiryDate\": \"2017-11-05T11:51:24.205Z\",\n      \"status\": \"status\",\n      \"organizationCode\": \"organizationCode\",\n      \"organizationShortName\": \"organizationShortName\",\n      \"memberCode\": \"memberCode1\",\n      \"memberLastName\": \"memberLastName\",\n      \"memberFirstName\": \"memberFirstName1\",\n      \"gender\": 1,\n      \"birthdate\": \"2017-11-05T11:51:24.205Z\",\n      \"countryCode\": \"countryCode1\",\n      \"identityCardNumber\": \"identityCardNumber\",\n      \"identityCardIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n      \"identityCardIssuingAuthority\": \"identityCardIssuingAuthority1\",\n      \"passportNumber\": \"passportNumber\",\n      \"passportIssuingDate\": \"2017-11-05T11:51:24.205Z\",\n      \"passportExpiryDate\": \"2017-11-05T11:51:24.205Z\",\n      \"passportIssuingAuthority\": \"passportIssuingAuthority\",\n      \"temporaryAddress\": \"temporaryAddress\",\n      \"permanentAddress\": \"permanentAddress\",\n      \"email\": \"test@ecash.com\",\n      \"phoneNumber1\": \"12345678\",\n      \"phoneNumber2\": \"12345678\",\n      \"occupation\": \"occupation\",\n      \"title\": \"title\",\n      \"position\": \"position\"\n    }\n  ]\n}"
+					"raw": "{\r\n  \"syncCode\": \"cb4622285819405e899fbb2e6ef85bce\",\r\n  \"syncTime\": \"2018-03-11T06:54:01Z\",\r\n  \"finishFlag\": true,\r\n  \"personalizations\": [\r\n    {\r\n      \"personalizationCode\": \"SNA00000000008\",\r\n      \"personalizationDate\": \"2018-03-11\",\r\n      \"cardCode\": \"4E4847D1A4D9B9\",\r\n      \"effectiveDate\": \"2018-03-11\",\r\n      \"expiryDate\": \"2018-10-01\",\r\n      \"status\": 1,\r\n      \"organizationCode\": \"NHG\",\r\n      \"organizationShortName\": \"NHG\",\r\n      \"memberCode\": \"S-1-5-21-2922345751-3199540080-2633893670-1323\",\r\n      \"memberLastName\": \"testiyiyi\",\r\n      \"memberFirstName\": \"218\",\r\n      \"gender\": null,\r\n      \"birthdate\": null,\r\n      \"countryCode\": null,\r\n      \"identityCardNumber\": null,\r\n      \"identityCardIssuingDate\": null,\r\n      \"identityCardIssuingAuthority\": null,\r\n      \"passportNumber\": null,\r\n      \"passportIssuingDate\": null,\r\n      \"passportExpiryDate\": null,\r\n      \"passportIssuingAuthority\": null,\r\n      \"temporaryAddress\": null,\r\n      \"permanentAddress\": null,\r\n      \"email\": \"testiyiyi218@smartworld.com.vn\",\r\n      \"phoneNumber1\": null,\r\n      \"phoneNumber2\": null,\r\n      \"occupation\": null,\r\n      \"title\": \"Software Developer\",\r\n      \"position\": null\r\n    },\r\n    {\r\n      \"personalizationCode\": \"SNA00000000009\",\r\n      \"personalizationDate\": \"2018-03-11\",\r\n      \"cardCode\": \"4E48470D9183E0\",\r\n      \"effectiveDate\": \"2018-03-11\",\r\n      \"expiryDate\": \"2018-10-01\",\r\n      \"status\": 1,\r\n      \"organizationCode\": \"NHG\",\r\n      \"organizationShortName\": \"NHG\",\r\n      \"memberCode\": \"S-1-5-21-2922345751-3199540080-2633893670-1579\",\r\n      \"memberLastName\": \"testiyiyi\",\r\n      \"memberFirstName\": \"474\",\r\n      \"gender\": null,\r\n      \"birthdate\": null,\r\n      \"countryCode\": null,\r\n      \"identityCardNumber\": null,\r\n      \"identityCardIssuingDate\": null,\r\n      \"identityCardIssuingAuthority\": null,\r\n      \"passportNumber\": null,\r\n      \"passportIssuingDate\": null,\r\n      \"passportExpiryDate\": null,\r\n      \"passportIssuingAuthority\": null,\r\n      \"temporaryAddress\": null,\r\n      \"permanentAddress\": null,\r\n      \"email\": \"testiyiyi474@smartworld.com.vn\",\r\n      \"phoneNumber1\": null,\r\n      \"phoneNumber2\": null,\r\n      \"occupation\": null,\r\n      \"title\": \"Software Developer\",\r\n      \"position\": null\r\n    }\r\n  ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/charge",
+			"request": {
+				"url": "http://localhost:8080/api/charge",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"card\": {\n    \"trackData\": null,\n    \"number\": \"4E48470D9183E0\"\n  },\n  \"amount\": 66,\n  \"extendedInformation\": {\n    \"additionalTerminalInfo\": {\n      \"terminalId\": \"288816b1-369d-4d3f-8396-111111111111\",\n      \"terminalAddress\": null\n    },\n    \"transactionDetails\": \"{\\\"invoiceType\\\":\\\"canteen_invoice\\\",\\\"details\\\":{\\\"deskId\\\":0,\\\"deskNumber\\\":\\\"\\\",\\\"receiptDate\\\":\\\"2018-01-23T17:45:47.3324819+07:00\\\",\\\"customerCode\\\":\\\"\\\",\\\"customerPhone\\\":\\\"\\\",\\\"employeeCode\\\":\\\"1\\\",\\\"total\\\":50000.00,\\\"discount\\\":0.00,\\\"totalPrice\\\":50000.00,\\\"vat\\\":5000.00,\\\"payment\\\":\\\"KR\\\",\\\"details\\\":[{\\\"productId\\\":1,\\\"productName\\\":\\\"Cơm gà\\\",\\\"quantity\\\":2,\\\"unitPrice\\\":25000.00,\\\"status\\\":1,\\\"printerPosition\\\":1}]}}\",\n    \"targetAccount\": null\n  }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/deposit",
+			"request": {
+				"url": "http://localhost:8080/api/deposit",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"card\": {\n    \"number\": \"4E48470D9183E0\",\n    \"trackData\": \"track data\"\n  },\n  \"amount\": 1000000,\n  \"extendedInformation\": {\n    \"transactionDetails\": \"{'cocacola': 1,'aquafina': 2}\",\n    \"additionalTerminalInfo\": {\n      \"terminalId\": \"288816b1-369d-4d3f-8396-111111111111\",\n      \"terminalAddress\": {\n        \"addressType\": 1,\n        \"details\": {\n          \"city\": \"HCM\",\n          \"district\": \"Tan Binh\"\n        }\n      }\n    }\n  }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/refund",
+			"request": {
+				"url": "http://localhost:8080/api/refund",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"transactionId\": \"6385a352-ed82-4217-980c-a5e282f72865\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/transfer ACCOUNT",
+			"request": {
+				"url": "http://localhost:8080/api/transfer",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"source\": {\n    \"type\": \"ACCOUNT\",\n    \"id\": \"aa0f316f-95a9-4f3d-b273-92a7b3f481db\"\n  },\n  \"destination\": {\n    \"type\": \"ACCOUNT\",\n    \"id\": \"7347ef96-6684-4b16-85df-0d4c774f9062\"\n  },\n  \"amount\": 111,\n  \"content\": \"nap tien vao vi\",\n  \"teller\": \"<ID giao dich vien>\",\n  \"extendedInformation\": { \"transactionDetails\": \"test\"}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/withdraw",
+			"request": {
+				"url": "http://localhost:8080/api/withdraw",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "RSA 7728f732-c6fe-11e7-abc4-cec278b6b50a:288816b1-369d-4d3f-8396-111111111111:pRKFTIz4SI4vaeqBTpXw1KO8quddnTH7uNAdhuSeqXuTzZ8j212t8d3FNRx9AP+8Qdu50HYj5FVlgn/kPuupIxnraYUBXftUevr9RHyGKWxHS+hCddE1HP/unKyRkrNsW6XOFtVb2Bx9cTA/LEc/r9qs3id7YcVysPmUVHB0Ot8ef+VyDVVuRBFXuJdj2O5MhICgyM+d0eVhuNzqS633Zyh9iz4freJjVlwRbIdW+NMC7wd1AHtOsAMYvY773X+7ezZ3WgAjJww7NBLHp2b7W/mpdVtus6kEJ4hP3EYXCeAriJ7N82wPUDq+AuEqj7hoyaPHlO47iSkT0NFeoPe1tg==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"source\": {\n    \"type\": \"ACCOUNT\",\n    \"id\": \"7347ef96-6684-4b16-85df-0d4c774f9062\"\n  },\n  \"accountHolder\": \"Account holder name\",\n  \"amount\": 33,\n  \"content\": \"Rut tien\",\n  \"teller\": \"<Giao dich vien>\",\n  \"extendedInformation\": { \"transactionDetails\": \"test\"}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/account/lockAccounts",
+			"request": {
+				"url": "localhost:8081/api/account/lockAccounts",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"id\": \"aa0f316f-95a9-4f3d-b273-92a7b3f481db\"\n\t},\n\t{\n\t\t\"id\": \"7347ef96-6684-4b16-85df-0d4c774f9062\"\n\t}\n]"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/account/unlockAccounts",
+			"request": {
+				"url": "localhost:8081/api/account/unlockAccounts",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"id\": \"aa0f316f-95a9-4f3d-b273-92a7b3f481db\"\n\t}\n]"
 				},
 				"description": ""
 			},

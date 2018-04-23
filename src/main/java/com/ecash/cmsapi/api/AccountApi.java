@@ -1,5 +1,7 @@
 package com.ecash.cmsapi.api;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecash.cmsapi.vo.AccountUpdateVO;
 import com.ecash.ecashcore.model.cms.Account;
 import com.ecash.ecashcore.service.AccountService;
+import com.ecash.ecashcore.vo.AccountVO;
 import com.querydsl.core.types.Predicate;
 
 @RestController
@@ -42,5 +45,21 @@ public class AccountApi extends BaseApi {
     account.setStatus(request.getStatus());
     accountService.updateAccountStatus(account, getCurrentUser());
     return ResponseEntity.ok(request);
+  }
+  
+  @PreAuthorize(value = "hasPermission(null, 'ACCOUNT_DETAILS/UPDATE')")
+  @RequestMapping(value = "${api.url.account.lockAccounts}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+  public ResponseEntity<?> lockAccounts(@RequestBody List<AccountVO> accounts) {
+    accountService.lock(accounts);
+    
+    return ResponseEntity.ok(accounts);
+  }
+  
+  @PreAuthorize(value = "hasPermission(null, 'ACCOUNT_DETAILS/UPDATE')")
+  @RequestMapping(value = "${api.url.account.unlockAccounts}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+  public ResponseEntity<?> unlockAccounts(@RequestBody List<AccountVO> accounts) {
+    accountService.unlockAccounts(accounts);
+    
+    return ResponseEntity.ok(accounts);
   }
 }
