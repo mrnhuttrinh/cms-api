@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecash.cmsapi.vo.ResponseBodyVO;
 import com.ecash.ecashcore.model.cms.Customer;
+import com.ecash.ecashcore.pojo.NewCustomerPOJO;
+import com.ecash.ecashcore.pojo.UpdateCustomerPOJO;
 import com.ecash.ecashcore.service.CustomerService;
-import com.ecash.ecashcore.vo.CustomerVO;
 import com.querydsl.core.types.Predicate;
-
-import com.ecash.ecashcore.vo.request.NewCustomerVO;
 
 @RestController
 public class CustomerApi extends BaseApi {
@@ -51,10 +50,10 @@ public class CustomerApi extends BaseApi {
 
   @PreAuthorize(value = "hasPermission(null, 'CUSTOMER_DETAILS/CREATE')")
   @RequestMapping(value = "${api.url.customers.create}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> addNewCustomer(@RequestBody NewCustomerVO customer) {
+  public ResponseEntity<?> addNewCustomer(@RequestBody NewCustomerPOJO customer) {
     try {
-      Customer newCustomer = customerService.addNewCustomer(customer);
-      return new ResponseEntity<Customer>(newCustomer, HttpStatus.OK);
+      Customer result = customerService.addNewCustomer(customer, this.getCurrentUser());
+      return new ResponseEntity<Customer>(result, HttpStatus.OK);
     } catch (Exception ex) {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), null, null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
@@ -63,10 +62,10 @@ public class CustomerApi extends BaseApi {
 
   @PreAuthorize(value = "hasPermission(null, 'CUSTOMER_DETAILS/UPDATE')")
   @RequestMapping(value = "${api.url.customers.update}", method = RequestMethod.PUT, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> updateCustomer(@RequestBody NewCustomerVO customer) {
+  public ResponseEntity<?> updateCustomer(@RequestBody UpdateCustomerPOJO customer) {
     try {
-      Customer newCustomer = customerService.addNewCustomer(customer);
-      return new ResponseEntity<Customer>(newCustomer, HttpStatus.OK);
+      Customer result = customerService.updateCustomer(customer, this.getCurrentUser());
+      return new ResponseEntity<Customer>(result, HttpStatus.OK);
     } catch (Exception ex) {
       ResponseBodyVO error = new ResponseBodyVO(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), null, null);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
