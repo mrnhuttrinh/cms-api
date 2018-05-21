@@ -36,15 +36,17 @@ public class CustomerApi extends BaseApi {
 
   @PreAuthorize(value = "hasPermission(null, 'CUSTOMER_DETAILS/UPDATE')")
   @RequestMapping(value = "${api.url.customers.lockCustomers}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> lockCustomers(@RequestBody List<Customer> customers) {
-    customerService.lockCustomers(customers);
+  public ResponseEntity<?> lockCustomers(@RequestBody List<Customer> customers, @QuerydslPredicate(root = Customer.class) Predicate predicate,
+      Pageable pageable) {
+    customerService.lockCustomers(customers, predicate, pageable);
     return ResponseEntity.ok(customers);
   }
   
   @PreAuthorize(value = "hasPermission(null, 'CUSTOMER_DETAILS/UPDATE')")
   @RequestMapping(value = "${api.url.customers.unlockCustomers}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> unlockCustomers(@RequestBody List<Customer> customers) {
-    customerService.unlockCustomers(customers);
+  public ResponseEntity<?> unlockCustomers(@RequestBody List<Customer> customers, @QuerydslPredicate(root = Customer.class) Predicate predicate,
+      Pageable pageable) {
+    customerService.unlockCustomers(customers, predicate, pageable);
     return ResponseEntity.ok(customers);
   }
 
