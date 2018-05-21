@@ -2,6 +2,8 @@ package com.ecash.cmsapi.api;
 
 import java.util.List;
 
+import javax.net.ssl.SSLEngineResult.Status;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -39,7 +41,7 @@ public class CustomerApi extends BaseApi {
   public ResponseEntity<?> lockCustomers(@RequestBody List<Customer> customers, @QuerydslPredicate(root = Customer.class) Predicate predicate,
       Pageable pageable) {
     customerService.lockCustomers(customers, predicate, pageable);
-    return ResponseEntity.ok(customers);
+    return ResponseEntity.ok(Status.OK.toString());
   }
   
   @PreAuthorize(value = "hasPermission(null, 'CUSTOMER_DETAILS/UPDATE')")
@@ -47,7 +49,7 @@ public class CustomerApi extends BaseApi {
   public ResponseEntity<?> unlockCustomers(@RequestBody List<Customer> customers, @QuerydslPredicate(root = Customer.class) Predicate predicate,
       Pageable pageable) {
     customerService.unlockCustomers(customers, predicate, pageable);
-    return ResponseEntity.ok(customers);
+    return ResponseEntity.ok(Status.OK.toString());
   }
 
   @PreAuthorize(value = "hasPermission(null, 'CUSTOMER_DETAILS/CREATE')")
