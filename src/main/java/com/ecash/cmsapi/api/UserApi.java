@@ -148,7 +148,6 @@ public class UserApi extends BaseApi
     return ResponseEntity.ok(user); 
   }
 
-  @PreAuthorize(value = "hasPermission(null, 'USER_DETAIL/UPDATE')")
   @RequestMapping(value = "/users/update-setting", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
   public ResponseEntity<?> updateSetting(@RequestBody Map<String, String> body)
   {
