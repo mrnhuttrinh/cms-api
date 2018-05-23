@@ -2,6 +2,7 @@ package com.ecash.cmsapi.api;
 
 import java.util.List;
 
+import javax.net.ssl.SSLEngineResult.Status;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,17 +50,17 @@ public class AccountApi extends BaseApi {
   
   @PreAuthorize(value = "hasPermission(null, 'ACCOUNT_DETAILS/UPDATE')")
   @RequestMapping(value = "${api.url.account.lockAccounts}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> lockAccounts(@RequestBody List<AccountVO> accounts) {
-    accountService.lock(accounts);
-    
-    return ResponseEntity.ok(accounts);
+  public ResponseEntity<?> lockAccounts(@RequestBody List<AccountVO> accounts, @QuerydslPredicate(root = Account.class) Predicate predicate,
+      Pageable pageable) {
+    accountService.lock(accounts, predicate, pageable);
+    return ResponseEntity.ok(Status.OK.toString());
   }
   
   @PreAuthorize(value = "hasPermission(null, 'ACCOUNT_DETAILS/UPDATE')")
   @RequestMapping(value = "${api.url.account.unlockAccounts}", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-  public ResponseEntity<?> unlockAccounts(@RequestBody List<AccountVO> accounts) {
-    accountService.unlockAccounts(accounts);
-    
-    return ResponseEntity.ok(accounts);
+  public ResponseEntity<?> unlockAccounts(@RequestBody List<AccountVO> accounts, @QuerydslPredicate(root = Account.class) Predicate predicate,
+      Pageable pageable) {
+    accountService.unlockAccounts(accounts, predicate, pageable);
+    return ResponseEntity.ok(Status.OK.toString());
   }
 }
